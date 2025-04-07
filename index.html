@@ -175,6 +175,13 @@
             border-radius: 3px;
             border: 1px solid #ddd;
         }
+                .driver-select {
+            width: 100%;
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -344,12 +351,14 @@
                     <label for="option20-off" class="reserved">角度模拟限位关</label>
                 </div>
                 <div class="option-item">
-                    <label for="battery-type">电池类型:</label>
+                    <label for="battery-type">驱动器类型:</label>
                     <select id="battery-type" class="battery-select">
-                        <option value="0">圣阳铅酸电池</option>
-                        <option value="1">锂电池</option>
-                        <option value="2">免维护-荷贝克/天能</option>
-                        <option value="3">免维护-邱健</option>
+                        <option value="0">直流液驱或直流电驱</option>
+                        <option value="1">双二合一交流电驱</option>
+                        <option value="2">三合一交流电驱</option>
+                        <option value="3">COBO小电驱</option>
+                        <option value="4">交流泵电驱</option>
+                        <option value="5">三交流电驱</option>
                     </select>
                 </div>
             </div>
@@ -381,28 +390,13 @@
                     <label for="option28-off" class="reserved">底盘无线防撞关</label>
                 </div>
                 <div class="option-item">
-                    <input type="radio" id="option29-on" name="option29" value="8">
-                    <label for="option29-on" class="reserved">预留选项13开启</label>
-                    <input type="radio" id="option29-off" name="option29" value="0" checked>
-                    <label for="option29-off" class="reserved">预留选项13关闭</label>
-                </div>
-                <div class="option-item">
-                    <input type="radio" id="option30-on" name="option30" value="4">
-                    <label for="option30-on" class="reserved">预留选项14开启</label>
-                    <input type="radio" id="option30-off" name="option30" value="0" checked>
-                    <label for="option30-off" class="reserved">预留选项14关闭</label>
-                </div>
-                <div class="option-item">
-                    <input type="radio" id="option31-on" name="option31" value="2">
-                    <label for="option31-on" class="reserved">预留选项15开启</label>
-                    <input type="radio" id="option31-off" name="option31" value="0" checked>
-                    <label for="option31-off" class="reserved">预留选项15关闭</label>
-                </div>
-                <div class="option-item">
-                    <input type="radio" id="option32-on" name="option32" value="1">
-                    <label for="option32-on" class="reserved">预留选项16开启</label>
-                    <input type="radio" id="option32-off" name="option32" value="0" checked>
-                    <label for="option32-off" class="reserved">预留选项16关闭</label>
+                    <label for="battery-type">电池类型:</label>
+                    <select id="battery-type" class="battery-select">
+                        <option value="0">圣阳铅酸电池</option>
+                        <option value="1">锂电池</option>
+                        <option value="2">免维护-荷贝克/天能</option>
+                        <option value="3">免维护-邱健</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -473,6 +467,19 @@
                 }
                 return value;
             }
+              if (startId === 25 && endId === 32) {
+                const batteryValue = parseInt(document.getElementById('driver-type').value);
+                value += batteryValue;
+                
+                // 计算其他选项
+                for (let i = startId; i <= 20; i++) {
+                    const radio = document.querySelector(`input[name="option${i}"]:checked`);
+                    if (radio && radio.value !== "0") {
+                        value += parseInt(radio.value);
+                    }
+                }
+                return value;
+            }
             
             // 其他排正常计算
             for (let i = startId; i <= endId; i++) {
@@ -493,6 +500,24 @@
             if (startId === 17 && endId === 24) {
                 const batteryValue = decimalValue & 0b00001111; // 获取低4位
                 document.getElementById('battery-type').value = batteryValue;
+                
+                // 更新其他选项
+                for (let i = startId; i <= 20; i++) {
+                    const optionValue = Math.pow(2, (20 - i) % 8 + 4); // 计算选项值 (128,64,32,16)
+                    const radioOn = document.getElementById(`option${i}-on`);
+                    const radioOff = document.getElementById(`option${i}-off`);
+                    
+                    if ((decimalValue & optionValue) === optionValue) {
+                        radioOn.checked = true;
+                    } else {
+                        radioOff.checked = true;
+                    }
+                }
+                return decimalValue;
+            }
+            if (startId === 25 && endId === 32) {
+                const driverValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('driver-type').value = driverValue;
                 
                 // 更新其他选项
                 for (let i = startId; i <= 20; i++) {
