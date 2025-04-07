@@ -151,22 +151,22 @@
             <h2>数码管显示</h2>
             <div class="digit-display">
                 <div class="digit-pair">
-                    <div class="digit-label">[XX] (对应第一排选项)</div>
+                    <div class="digit-label">[XX] (对应第一排(低16位低字节))</div>
                     <div class="digit" id="digit1-display">00</div>
                     <input type="text" class="digit-input" id="digit1-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit-label">[XX.] (对应第二排选项)</div>
+                    <div class="digit-label">[XX.] (对应第二排(低16位高字节))</div>
                     <div class="digit" id="digit2-display">00.</div>
                     <input type="text" class="digit-input" id="digit2-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit-label">[X.X] (对应第三排选项)</div>
+                    <div class="digit-label">[X.X] (对应第三排(高16位低字节))</div>
                     <div class="digit" id="digit3-display">0.0</div>
                     <input type="text" class="digit-input" id="digit3-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit-label">[X.X.] (对应第四排选项)</div>
+                    <div class="digit-label">[X.X.] (对应第四排(高16位高字节))</div>
                     <div class="digit" id="digit4-display">0.0.</div>
                     <input type="text" class="digit-input" id="digit4-input" value="00" maxlength="2" style="display: none;">
                 </div>
@@ -175,7 +175,7 @@
         
         <div class="options-section">
             <div class="option-row">
-                <h3>第一排选项 (对应[XX])</h3>
+                <h3>第一排(低16位低字节) (对应[XX])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option1" name="option1" value="128">
                     <label for="option1">低电量语音报警循环播放 (128)</label>
@@ -202,11 +202,11 @@
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option7" name="option7" value="2">
-                    <label for="option7">美标上控举升反向开启 (2)</label>
+                    <label for="option7">美标上控举升反向 (2)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option8" name="option8" value="1">
-                    <label for="option8">上控休眠功能开启 (1)</label>
+                    <label for="option8">上控休眠功能 (1)</label>
                 </div>
             </div>
             
@@ -222,15 +222,15 @@
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option11" name="option11" value="32">
-                    <label for="option11">高度双区域功能开启 (32)</label>
+                    <label for="option11">高度双区域功能 (32)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option12" name="option12" value="16">
-                    <label for="option12">免维护电池功能开启 (16)</label>
+                    <label for="option12">免维护电池功能 (16)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option13" name="option13" value="8">
-                    <label for="option13">锂电池功能开启 (8)</label>
+                    <label for="option13">锂电池功能 (8)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option14" name="option14" value="4">
@@ -298,7 +298,7 @@
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option28" name="option28" value="16" disabled>
-                    <label for="option28" class="reserved">预留选项 12 (16)</label>
+                    <label for="option28" class="reserved">交流车倾斜降速</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option29" name="option29" value="8" disabled>
@@ -321,7 +321,7 @@
         
         <button class="calculate-btn" id="calculateBtn">计算/更新</button>
         
-        <div class="result-section">
+<!--         <div class="result-section">
             <h3>当前状态</h3>
             <p>数码管显示值:</p>
             <ul>
@@ -330,7 +330,7 @@
                 <li>[X.X]: <span id="result3">0.0</span> (第三排选项值: <span id="resultValue3">0</span>)</li>
                 <li>[X.X.]: <span id="result4">0.0.</span> (第四排选项值: <span id="resultValue4">0</span>)</li>
             </ul>
-        </div>
+        </div> -->
     </div>
 
     <script>
