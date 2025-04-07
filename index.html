@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数码管与选项计算器</title>
+    <title>数码管双向计算器</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,10 +46,25 @@
             padding: 10px 15px;
             border-radius: 5px;
             margin-bottom: 5px;
+            text-align: center;
+            width: 80px;
+        }
+        .digit-input {
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            font-weight: bold;
+            background-color: #444;
+            color: #ff0;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            width: 80px;
         }
         .digit-label {
             font-size: 14px;
             color: #666;
+            margin-bottom: 5px;
         }
         .options-section {
             display: grid;
@@ -99,32 +114,61 @@
             padding: 15px;
             background-color: #f0f0f0;
             border-radius: 5px;
-            display: none;
+        }
+        .mode-switch {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .mode-btn {
+            padding: 8px 16px;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+        }
+        .mode-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .mode-btn:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+        .mode-btn:last-child {
+            border-radius: 0 5px 5px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>数码管与选项计算器</h1>
+        <h1>数码管双向计算器</h1>
+        
+        <div class="mode-switch">
+            <button class="mode-btn active" id="optionToDigitMode">选项 → 数码管</button>
+            <button class="mode-btn" id="digitToOptionMode">数码管 → 选项</button>
+        </div>
         
         <div class="display-section">
             <h2>数码管显示</h2>
             <div class="digit-display">
                 <div class="digit-pair">
-                    <div class="digit" id="digit1">00</div>
                     <div class="digit-label">[XX] (对应第一排选项)</div>
+                    <div class="digit" id="digit1-display">00</div>
+                    <input type="text" class="digit-input" id="digit1-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit" id="digit2">00.</div>
                     <div class="digit-label">[XX.] (对应第二排选项)</div>
+                    <div class="digit" id="digit2-display">00.</div>
+                    <input type="text" class="digit-input" id="digit2-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit" id="digit3">0.0</div>
                     <div class="digit-label">[X.X] (对应第三排选项)</div>
+                    <div class="digit" id="digit3-display">0.0</div>
+                    <input type="text" class="digit-input" id="digit3-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit" id="digit4">0.0.</div>
                     <div class="digit-label">[X.X.] (对应第四排选项)</div>
+                    <div class="digit" id="digit4-display">0.0.</div>
+                    <input type="text" class="digit-input" id="digit4-input" value="00" maxlength="2" style="display: none;">
                 </div>
             </div>
         </div>
@@ -134,35 +178,35 @@
                 <h3>第一排选项 (对应[XX])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option1" name="option1" value="128">
-                    <label for="option1">低电量语音报警循环播放</label>
+                    <label for="option1">低电量语音报警循环播放 (128)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option2" name="option2" value="64">
-                    <label for="option2">下降比例阀</label>
+                    <label for="option2">下降比例阀 (64)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option3" name="option3" value="32">
-                    <label for="option3">启动高速</label>
+                    <label for="option3">启动高速 (32)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option4" name="option4" value="16">
-                    <label for="option4">并联阀得电高速</label>
+                    <label for="option4">并联阀得电高速 (16)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option5" name="option5" value="8">
-                    <label for="option5">CAN波特率-250K</label>
+                    <label for="option5">CAN波特率-250K (8)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option6" name="option6" value="4">
-                    <label for="option6">举升打开下降阀</label>
+                    <label for="option6">举升打开下降阀 (4)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option7" name="option7" value="2">
-                    <label for="option7">美标上控举升反向开启</label>
+                    <label for="option7">美标上控举升反向开启 (2)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option8" name="option8" value="1">
-                    <label for="option8">上控休眠功能开启</label>
+                    <label for="option8">上控休眠功能开启 (1)</label>
                 </div>
             </div>
             
@@ -170,35 +214,35 @@
                 <h3>第二排选项 (对应[XX.])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option9" name="option9" value="128">
-                    <label for="option9">重量双载荷功能开启</label>
+                    <label for="option9">重量双载荷功能开启 (128)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option10" name="option10" value="64">
-                    <label for="option10">举升限行开启</label>
+                    <label for="option10">举升限行开启 (64)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option11" name="option11" value="32">
-                    <label for="option11">高度双区域功能开启</label>
+                    <label for="option11">高度双区域功能开启 (32)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option12" name="option12" value="16">
-                    <label for="option12">免维护电池功能开启</label>
+                    <label for="option12">免维护电池功能开启 (16)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option13" name="option13" value="8">
-                    <label for="option13">锂电池功能开启</label>
+                    <label for="option13">锂电池功能开启 (8)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option14" name="option14" value="4">
-                    <label for="option14">防夹手慢速下降</label>
+                    <label for="option14">防夹手慢速下降 (4)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option15" name="option15" value="2">
-                    <label for="option15">18报警后允许举升</label>
+                    <label for="option15">18报警后允许举升 (2)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option16" name="option16" value="1" disabled>
-                    <label for="option16" class="reserved">-</label>
+                    <label for="option16" class="reserved">- (1)</label>
                 </div>
             </div>
             
@@ -206,35 +250,35 @@
                 <h3>第三排选项 (对应[X.X])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option17" name="option17" value="128" disabled>
-                    <label for="option17" class="reserved">预留选项 1</label>
+                    <label for="option17" class="reserved">预留选项 1 (128)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option18" name="option18" value="64" disabled>
-                    <label for="option18" class="reserved">预留选项 2</label>
+                    <label for="option18" class="reserved">预留选项 2 (64)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option19" name="option19" value="32" disabled>
-                    <label for="option19" class="reserved">预留选项 3</label>
+                    <label for="option19" class="reserved">预留选项 3 (32)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option20" name="option20" value="16" disabled>
-                    <label for="option20" class="reserved">预留选项 4</label>
+                    <label for="option20" class="reserved">预留选项 4 (16)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option21" name="option21" value="8" disabled>
-                    <label for="option21" class="reserved">预留选项 5</label>
+                    <label for="option21" class="reserved">预留选项 5 (8)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option22" name="option22" value="4" disabled>
-                    <label for="option22" class="reserved">预留选项 6</label>
+                    <label for="option22" class="reserved">预留选项 6 (4)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option23" name="option23" value="2" disabled>
-                    <label for="option23" class="reserved">预留选项 7</label>
+                    <label for="option23" class="reserved">预留选项 7 (2)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option24" name="option24" value="1" disabled>
-                    <label for="option24" class="reserved">预留选项 8</label>
+                    <label for="option24" class="reserved">预留选项 8 (1)</label>
                 </div>
             </div>
             
@@ -242,43 +286,43 @@
                 <h3>第四排选项 (对应[X.X.])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option25" name="option25" value="128" disabled>
-                    <label for="option25" class="reserved">预留选项 9</label>
+                    <label for="option25" class="reserved">预留选项 9 (128)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option26" name="option26" value="64" disabled>
-                    <label for="option26" class="reserved">预留选项 10</label>
+                    <label for="option26" class="reserved">预留选项 10 (64)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option27" name="option27" value="32" disabled>
-                    <label for="option27" class="reserved">预留选项 11</label>
+                    <label for="option27" class="reserved">预留选项 11 (32)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option28" name="option28" value="16" disabled>
-                    <label for="option28" class="reserved">预留选项 12</label>
+                    <label for="option28" class="reserved">预留选项 12 (16)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option29" name="option29" value="8" disabled>
-                    <label for="option29" class="reserved">预留选项 13</label>
+                    <label for="option29" class="reserved">预留选项 13 (8)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option30" name="option30" value="4" disabled>
-                    <label for="option30" class="reserved">预留选项 14</label>
+                    <label for="option30" class="reserved">预留选项 14 (4)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option31" name="option31" value="2" disabled>
-                    <label for="option31" class="reserved">预留选项 15</label>
+                    <label for="option31" class="reserved">预留选项 15 (2)</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="option32" name="option32" value="1" disabled>
-                    <label for="option32" class="reserved">预留选项 16</label>
+                    <label for="option32" class="reserved">预留选项 16 (1)</label>
                 </div>
             </div>
         </div>
         
-        <button class="calculate-btn" id="calculateBtn">计算数码管显示</button>
+        <button class="calculate-btn" id="calculateBtn">计算/更新</button>
         
-        <div class="result-section" id="resultSection">
-            <h3>计算结果</h3>
+        <div class="result-section">
+            <h3>当前状态</h3>
             <p>数码管显示值:</p>
             <ul>
                 <li>[XX]: <span id="result1">00</span> (第一排选项值: <span id="resultValue1">0</span>)</li>
@@ -290,50 +334,148 @@
     </div>
 
     <script>
-        document.getElementById('calculateBtn').addEventListener('click', function() {
-            // 计算每排选项的值并转换为十六进制显示
-            function calculateRowValue(startId, endId) {
-                let value = 0;
-                for (let i = startId; i <= endId; i++) {
-                    const checkbox = document.getElementById('option' + i);
-                    if (checkbox.checked && !checkbox.disabled) {
-                        value += parseInt(checkbox.value);
-                    }
+        // 当前模式：true为选项→数码管，false为数码管→选项
+        let currentMode = true;
+        
+        // 模式切换
+        document.getElementById('optionToDigitMode').addEventListener('click', function() {
+            currentMode = true;
+            this.classList.add('active');
+            document.getElementById('digitToOptionMode').classList.remove('active');
+            switchDisplayMode();
+        });
+        
+        document.getElementById('digitToOptionMode').addEventListener('click', function() {
+            currentMode = false;
+            this.classList.add('active');
+            document.getElementById('optionToDigitMode').classList.remove('active');
+            switchDisplayMode();
+        });
+        
+        // 切换显示模式
+        function switchDisplayMode() {
+            const displayElements = document.querySelectorAll('.digit');
+            const inputElements = document.querySelectorAll('.digit-input');
+            
+            if (currentMode) {
+                // 选项→数码管模式
+                displayElements.forEach(el => el.style.display = 'block');
+                inputElements.forEach(el => el.style.display = 'none');
+            } else {
+                // 数码管→选项模式
+                displayElements.forEach(el => el.style.display = 'none');
+                inputElements.forEach(el => el.style.display = 'block');
+                
+                // 初始化输入框的值
+                document.getElementById('digit1-input').value = document.getElementById('digit1-display').textContent;
+                document.getElementById('digit2-input').value = document.getElementById('digit2-display').textContent.replace('.', '');
+                document.getElementById('digit3-input').value = document.getElementById('digit3-display').textContent.replace(/\./g, '');
+                document.getElementById('digit4-input').value = document.getElementById('digit4-display').textContent.replace(/\./g, '');
+            }
+        }
+        
+        // 计算每排选项的值并转换为十六进制显示
+        function calculateRowValue(startId, endId) {
+            let value = 0;
+            for (let i = startId; i <= endId; i++) {
+                const checkbox = document.getElementById('option' + i);
+                if (checkbox.checked && !checkbox.disabled) {
+                    value += parseInt(checkbox.value);
                 }
-                return value;
+            }
+            return value;
+        }
+        
+        // 根据十六进制值更新选项状态
+        function updateOptionsFromHex(hexValue, startId, endId) {
+            // 将十六进制转换为十进制
+            const decimalValue = parseInt(hexValue, 16);
+            
+            // 更新每个选项
+            for (let i = startId; i <= endId; i++) {
+                const checkbox = document.getElementById('option' + i);
+                if (!checkbox.disabled) {
+                    const optionValue = parseInt(checkbox.value);
+                    checkbox.checked = (decimalValue & optionValue) === optionValue;
+                }
             }
             
-            // 计算各排选项值
-            const row1Value = calculateRowValue(1, 8);
-            const row2Value = calculateRowValue(9, 16);
-            const row3Value = calculateRowValue(17, 24);
-            const row4Value = calculateRowValue(25, 32);
-            
-            // 转换为十六进制并补零
-            function toHexString(value) {
-                let hex = value.toString(16).toUpperCase();
-                return hex.length === 1 ? '0' + hex : hex;
+            return decimalValue;
+        }
+        
+        // 主计算函数
+        function calculate() {
+            if (currentMode) {
+                // 选项→数码管模式
+                const row1Value = calculateRowValue(1, 8);
+                const row2Value = calculateRowValue(9, 16);
+                const row3Value = calculateRowValue(17, 24);
+                const row4Value = calculateRowValue(25, 32);
+                
+                // 转换为十六进制并补零
+                function toHexString(value) {
+                    let hex = value.toString(16).toUpperCase();
+                    return hex.length === 1 ? '0' + hex : hex;
+                }
+                
+                // 更新数码管显示
+                document.getElementById('digit1-display').textContent = toHexString(row1Value);
+                document.getElementById('digit2-display').textContent = toHexString(row2Value) + '.';
+                document.getElementById('digit3-display').textContent = toHexString(row3Value).split('').join('.');
+                document.getElementById('digit4-display').textContent = toHexString(row4Value).split('').join('.') + '.';
+                
+                // 更新结果展示
+                updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
+            } else {
+                // 数码管→选项模式
+                const digit1Value = document.getElementById('digit1-input').value.toUpperCase();
+                const digit2Value = document.getElementById('digit2-input').value.toUpperCase();
+                const digit3Value = document.getElementById('digit3-input').value.toUpperCase();
+                const digit4Value = document.getElementById('digit4-input').value.toUpperCase();
+                
+                // 验证输入是否为有效的十六进制
+                const hexRegex = /^[0-9A-Fa-f]{2}$/;
+                if (!hexRegex.test(digit1Value) || !hexRegex.test(digit2Value) || 
+                    !hexRegex.test(digit3Value) || !hexRegex.test(digit4Value)) {
+                    alert('请输入有效的两位十六进制数 (00-FF)');
+                    return;
+                }
+                
+                // 更新选项状态
+                const row1Value = updateOptionsFromHex(digit1Value, 1, 8);
+                const row2Value = updateOptionsFromHex(digit2Value, 9, 16);
+                const row3Value = updateOptionsFromHex(digit3Value, 17, 24);
+                const row4Value = updateOptionsFromHex(digit4Value, 25, 32);
+                
+                // 更新数码管显示
+                document.getElementById('digit1-display').textContent = digit1Value;
+                document.getElementById('digit2-display').textContent = digit2Value + '.';
+                document.getElementById('digit3-display').textContent = digit3Value.split('').join('.');
+                document.getElementById('digit4-display').textContent = digit4Value.split('').join('.') + '.';
+                
+                // 更新结果展示
+                updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
             }
-            
-            // 更新数码管显示
-            document.getElementById('digit1').textContent = toHexString(row1Value);
-            document.getElementById('digit2').textContent = toHexString(row2Value) + '.';
-            document.getElementById('digit3').textContent = toHexString(row3Value).split('').join('.');
-            document.getElementById('digit4').textContent = toHexString(row4Value).split('').join('.') + '.';
-            
-            // 显示结果
-            document.getElementById('result1').textContent = document.getElementById('digit1').textContent;
-            document.getElementById('result2').textContent = document.getElementById('digit2').textContent;
-            document.getElementById('result3').textContent = document.getElementById('digit3').textContent;
-            document.getElementById('result4').textContent = document.getElementById('digit4').textContent;
+        }
+        
+        // 更新结果展示
+        function updateResultDisplay(row1Value, row2Value, row3Value, row4Value) {
+            document.getElementById('result1').textContent = document.getElementById('digit1-display').textContent;
+            document.getElementById('result2').textContent = document.getElementById('digit2-display').textContent;
+            document.getElementById('result3').textContent = document.getElementById('digit3-display').textContent;
+            document.getElementById('result4').textContent = document.getElementById('digit4-display').textContent;
             
             document.getElementById('resultValue1').textContent = row1Value;
             document.getElementById('resultValue2').textContent = row2Value;
             document.getElementById('resultValue3').textContent = row3Value;
             document.getElementById('resultValue4').textContent = row4Value;
-            
-            document.getElementById('resultSection').style.display = 'block';
-        });
+        }
+        
+        // 绑定计算按钮
+        document.getElementById('calculateBtn').addEventListener('click', calculate);
+        
+        // 初始化
+        switchDisplayMode();
     </script>
 </body>
 </html>
