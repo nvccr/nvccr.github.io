@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>选项计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .option-group {
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>选项计算器</h1>
+    
+    <div class="option-group">
+        <h3>选项1: 选择你的年龄范围</h3>
+        <select id="age">
+            <option value="1">18岁以下</option>
+            <option value="2">18-25岁</option>
+            <option value="3">26-35岁</option>
+            <option value="4">36岁以上</option>
+        </select>
+    </div>
+    
+    <div class="option-group">
+        <h3>选项2: 选择你的兴趣</h3>
+        <input type="radio" id="sports" name="interest" value="1">
+        <label for="sports">运动</label><br>
+        <input type="radio" id="music" name="interest" value="2">
+        <label for="music">音乐</label><br>
+        <input type="radio" id="reading" name="interest" value="3">
+        <label for="reading">阅读</label>
+    </div>
+    
+    <div class="option-group">
+        <h3>选项3: 选择难度级别</h3>
+        <input type="range" id="difficulty" min="1" max="10" value="5">
+        <span id="difficultyValue">5</span>
+    </div>
+    
+    <button onclick="calculateResult()">计算结果</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        // 更新滑块显示值
+        document.getElementById('difficulty').addEventListener('input', function() {
+            document.getElementById('difficultyValue').textContent = this.value;
+        });
+        
+        // 计算函数
+        function calculateResult() {
+            // 获取选项值
+            const age = parseInt(document.getElementById('age').value);
+            const interest = parseInt(document.querySelector('input[name="interest"]:checked').value);
+            const difficulty = parseInt(document.getElementById('difficulty').value);
+            
+            // 计算逻辑（这里只是一个示例）
+            let score = (age * 2) + (interest * 3) + (difficulty * 1.5);
+            let message = "";
+            
+            if (score < 15) {
+                message = "你的得分较低，建议选择更简单的选项";
+            } else if (score < 25) {
+                message = "你的得分中等，这是大多数人的选择";
+            } else {
+                message = "你的得分很高，适合挑战性任务";
+            }
+            
+            // 显示结果
+            document.getElementById('result').innerHTML = `
+                <h3>计算结果</h3>
+                <p>你的总得分: ${score}</p>
+                <p>${message}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
