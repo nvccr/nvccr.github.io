@@ -167,6 +167,14 @@
         .option-row::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        /* 电池类型下拉框样式 */
+        .battery-select {
+            width: 100%;
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -336,28 +344,13 @@
                     <label for="option20-off" class="reserved">角度模拟限位关</label>
                 </div>
                 <div class="option-item">
-                    <input type="radio" id="option21-on" name="option21" value="8">
-                    <label for="option21-on" class="reserved">预留选项5开启</label>
-                    <input type="radio" id="option21-off" name="option21" value="0" checked>
-                    <label for="option21-off" class="reserved">预留选项5关闭</label>
-                </div>
-                <div class="option-item">
-                    <input type="radio" id="option22-on" name="option22" value="4">
-                    <label for="option22-on" class="reserved">预留选项6开启</label>
-                    <input type="radio" id="option22-off" name="option22" value="0" checked>
-                    <label for="option22-off" class="reserved">预留选项6关闭</label>
-                </div>
-                <div class="option-item">
-                    <input type="radio" id="option23-on" name="option23" value="2">
-                    <label for="option23-on" class="reserved">预留选项7开启</label>
-                    <input type="radio" id="option23-off" name="option23" value="0" checked>
-                    <label for="option23-off" class="reserved">预留选项7关闭</label>
-                </div>
-                <div class="option-item">
-                    <input type="radio" id="option24-on" name="option24" value="1">
-                    <label for="option24-on" class="reserved">预留选项8开启</label>
-                    <input type="radio" id="option24-off" name="option24" value="0" checked>
-                    <label for="option24-off" class="reserved">预留选项8关闭</label>
+                    <label for="battery-type">电池类型:</label>
+                    <select id="battery-type" class="battery-select">
+                        <option value="0">圣阳铅酸电池</option>
+                        <option value="1">锂电池</option>
+                        <option value="2">免维护-荷贝克/天能</option>
+                        <option value="3">免维护-邱健</option>
+                    </select>
                 </div>
             </div>
             
@@ -417,14 +410,6 @@
         <button class="calculate-btn" id="calculateBtn">计算/更新</button>
         
         <div class="result-section">
-<!--             <h3>当前状态</h3>
-            <p>数码管显示值:</p>
-            <ul>
-                <li>[XX]: <span id="result1">00</span> (第一排选项值: <span id="resultValue1">0</span>)</li>
-                <li>[X.X.]: <span id="result2">0.0.</span> (第二排选项值: <span id="resultValue2">0</span>)</li>
-                <li>[XX.]: <span id="result3">00.</span> (第三排选项值: <span id="resultValue3">0</span>)</li>
-                <li>[X.X]: <span id="result4">0.0</span> (第四排选项值: <span id="resultValue4">0</span>)</li>
-            </ul> -->
             <h6>Copyright © North Valley Research</h6>
         </div>
     </div>
@@ -473,6 +458,23 @@
         // 计算每排选项的值并转换为十六进制显示
         function calculateRowValue(startId, endId) {
             let value = 0;
+            
+            // 特殊处理第三排的电池类型选项
+            if (startId === 17 && endId === 24) {
+                const batteryValue = parseInt(document.getElementById('battery-type').value);
+                value += batteryValue;
+                
+                // 计算其他选项
+                for (let i = startId; i <= 20; i++) {
+                    const radio = document.querySelector(`input[name="option${i}"]:checked`);
+                    if (radio && radio.value !== "0") {
+                        value += parseInt(radio.value);
+                    }
+                }
+                return value;
+            }
+            
+            // 其他排正常计算
             for (let i = startId; i <= endId; i++) {
                 const radio = document.querySelector(`input[name="option${i}"]:checked`);
                 if (radio && radio.value !== "0") {
@@ -487,7 +489,27 @@
             // 将十六进制转换为十进制
             const decimalValue = parseInt(hexValue, 16);
             
-            // 更新每个选项
+            // 特殊处理第三排的电池类型选项
+            if (startId === 17 && endId === 24) {
+                const batteryValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('battery-type').value = batteryValue;
+                
+                // 更新其他选项
+                for (let i = startId; i <= 20; i++) {
+                    const optionValue = Math.pow(2, (20 - i) % 8 + 4); // 计算选项值 (128,64,32,16)
+                    const radioOn = document.getElementById(`option${i}-on`);
+                    const radioOff = document.getElementById(`option${i}-off`);
+                    
+                    if ((decimalValue & optionValue) === optionValue) {
+                        radioOn.checked = true;
+                    } else {
+                        radioOff.checked = true;
+                    }
+                }
+                return decimalValue;
+            }
+            
+            // 更新其他排选项
             for (let i = startId; i <= endId; i++) {
                 const optionValue = Math.pow(2, (endId - i) % 8); // 计算选项值 (128,64,32,16,8,4,2,1)
                 const radioOn = document.getElementById(`option${i}-on`);
