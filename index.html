@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 1200px;  /* 增大页面宽度 */
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -73,25 +73,25 @@
         }
         .option-row {
             display: flex;
-            flex-wrap: nowrap;  /* 禁止换行 */
+            flex-wrap: nowrap;
             gap: 10px;
             margin-bottom: 15px;
-            overflow-x: auto;  /* 如果内容超出则显示滚动条 */
-            padding-bottom: 10px;  /* 为滚动条留出空间 */
+            overflow-x: auto;
+            padding-bottom: 10px;
         }
         .option-row h3 {
-            position: absolute;  /* 将标题移出flex流 */
+            position: absolute;
             margin-top: -25px;
         }
         .option-item {
-            flex: 0 0 auto;  /* 不伸缩不收缩 */
-            width: 110px;  /* 固定宽度 */
+            flex: 0 0 auto;
+            width: 110px;
             padding: 10px;
             background-color: #f9f9f9;
             border-radius: 5px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            white-space: normal;  /* 允许文本换行 */
-            word-wrap: break-word;  /* 允许长单词换行 */
+            white-space: normal;
+            word-wrap: break-word;
         }
         .option-item input[type="checkbox"] {
             margin-right: 8px;
@@ -151,8 +151,6 @@
         .mode-btn:last-child {
             border-radius: 0 5px 5px 0;
         }
-        
-        /* 滚动条样式 */
         .option-row::-webkit-scrollbar {
             height: 6px;
         }
@@ -187,18 +185,18 @@
                     <input type="text" class="digit-input" id="digit1-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit-label">[XX.] (对应第二排(低16位高字节))</div>
-                    <div class="digit" id="digit2-display">00.</div>
+                    <div class="digit-label">[X.X.] (对应第二排(低16位高字节))</div>
+                    <div class="digit" id="digit2-display">0.0.</div>
                     <input type="text" class="digit-input" id="digit2-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit-label">[X.X] (对应第三排(高16位低字节))</div>
-                    <div class="digit" id="digit3-display">0.0</div>
+                    <div class="digit-label">[XX.] (对应第三排(高16位低字节))</div>
+                    <div class="digit" id="digit3-display">00.</div>
                     <input type="text" class="digit-input" id="digit3-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
-                    <div class="digit-label">[X.X.] (对应第四排(高16位高字节))</div>
-                    <div class="digit" id="digit4-display">0.0.</div>
+                    <div class="digit-label">[X.X] (对应第四排(高16位高字节))</div>
+                    <div class="digit" id="digit4-display">0.0</div>
                     <input type="text" class="digit-input" id="digit4-input" value="00" maxlength="2" style="display: none;">
                 </div>
             </div>
@@ -242,7 +240,7 @@
             </div>
             
             <div class="option-row">
-                <h3>第二排选项 (对应[XX.])</h3>
+                <h3>第二排(低16位高字节) (对应[X.X.])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option9" name="option9" value="128">
                     <label for="option9">重量双载荷功能开启 (128)</label>
@@ -278,7 +276,7 @@
             </div>
             
             <div class="option-row">
-                <h3>第三排选项 (对应[X.X])</h3>
+                <h3>第三排(高16位低字节) (对应[XX.])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option17" name="option17" value="128">
                     <label for="option17">平台防撞超越功能 (128)</label>
@@ -314,7 +312,7 @@
             </div>
             
             <div class="option-row">
-                <h3>第四排选项 (对应[X.X.])</h3>
+                <h3>第四排(高16位高字节) (对应[X.X])</h3>
                 <div class="option-item">
                     <input type="checkbox" id="option25" name="option25" value="128">
                     <label for="option25" class="reserved">平台防撞三级禁行开启 (128)</label>
@@ -357,9 +355,9 @@
             <p>数码管显示值:</p>
             <ul>
                 <li>[XX]: <span id="result1">00</span> (第一排选项值: <span id="resultValue1">0</span>)</li>
-                <li>[XX.]: <span id="result2">00.</span> (第二排选项值: <span id="resultValue2">0</span>)</li>
-                <li>[X.X]: <span id="result3">0.0</span> (第三排选项值: <span id="resultValue3">0</span>)</li>
-                <li>[X.X.]: <span id="result4">0.0.</span> (第四排选项值: <span id="resultValue4">0</span>)</li>
+                <li>[X.X.]: <span id="result2">0.0.</span> (第二排选项值: <span id="resultValue2">0</span>)</li>
+                <li>[XX.]: <span id="result3">00.</span> (第三排选项值: <span id="resultValue3">0</span>)</li>
+                <li>[X.X]: <span id="result4">0.0</span> (第四排选项值: <span id="resultValue4">0</span>)</li>
             </ul>
         </div>
     </div>
@@ -399,8 +397,8 @@
                 
                 // 初始化输入框的值
                 document.getElementById('digit1-input').value = document.getElementById('digit1-display').textContent;
-                document.getElementById('digit2-input').value = document.getElementById('digit2-display').textContent.replace('.', '');
-                document.getElementById('digit3-input').value = document.getElementById('digit3-display').textContent.replace(/\./g, '');
+                document.getElementById('digit2-input').value = document.getElementById('digit2-display').textContent.replace(/\./g, '');
+                document.getElementById('digit3-input').value = document.getElementById('digit3-display').textContent.replace('.', '');
                 document.getElementById('digit4-input').value = document.getElementById('digit4-display').textContent.replace(/\./g, '');
             }
         }
@@ -449,9 +447,9 @@
                 
                 // 更新数码管显示
                 document.getElementById('digit1-display').textContent = toHexString(row1Value);
-                document.getElementById('digit2-display').textContent = toHexString(row2Value) + '.';
-                document.getElementById('digit3-display').textContent = toHexString(row3Value).split('').join('.');
-                document.getElementById('digit4-display').textContent = toHexString(row4Value).split('').join('.') + '.';
+                document.getElementById('digit2-display').textContent = toHexString(row2Value).split('').join('.') + '.';
+                document.getElementById('digit3-display').textContent = toHexString(row3Value) + '.';
+                document.getElementById('digit4-display').textContent = toHexString(row4Value).split('').join('.');
                 
                 // 更新结果展示
                 updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
@@ -478,9 +476,9 @@
                 
                 // 更新数码管显示
                 document.getElementById('digit1-display').textContent = digit1Value;
-                document.getElementById('digit2-display').textContent = digit2Value + '.';
-                document.getElementById('digit3-display').textContent = digit3Value.split('').join('.');
-                document.getElementById('digit4-display').textContent = digit4Value.split('').join('.') + '.';
+                document.getElementById('digit2-display').textContent = digit2Value.split('').join('.') + '.';
+                document.getElementById('digit3-display').textContent = digit3Value + '.';
+                document.getElementById('digit4-display').textContent = digit4Value.split('').join('.');
                 
                 // 更新结果展示
                 updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
