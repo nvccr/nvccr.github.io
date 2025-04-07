@@ -67,19 +67,28 @@
             margin-bottom: 5px;
         }
         .options-section {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         .option-row {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .option-row h3 {
+            width: 100%;
+            margin-bottom: 10px;
         }
         .option-item {
-            display: flex;
-            align-items: center;
+            flex: 1 1 calc(25% - 10px);
+            min-width: 150px;
+            max-width: 200px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .option-item input[type="checkbox"] {
             margin-right: 10px;
@@ -88,6 +97,9 @@
         }
         .option-item label {
             font-size: 14px;
+            display: inline-block;
+            vertical-align: middle;
+            width: calc(100% - 28px);
         }
         .reserved {
             color: #999;
@@ -241,43 +253,43 @@
                     <label for="option15">18报警后允许举升 (2)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option16" name="option16" value="1" disabled>
-                    <label for="option16" class="reserved">- (1)</label>
+                    <input type="checkbox" id="option16" name="option16" value="1">
+                    <label for="option16" class="reserved">预留选项 (1)</label>
                 </div>
             </div>
             
             <div class="option-row">
                 <h3>第三排选项 (对应[X.X])</h3>
                 <div class="option-item">
-                    <input type="checkbox" id="option17" name="option17" value="128" disabled>
+                    <input type="checkbox" id="option17" name="option17" value="128">
                     <label for="option17" class="reserved">预留选项 1 (128)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option18" name="option18" value="64" disabled>
+                    <input type="checkbox" id="option18" name="option18" value="64">
                     <label for="option18" class="reserved">预留选项 2 (64)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option19" name="option19" value="32" disabled>
+                    <input type="checkbox" id="option19" name="option19" value="32">
                     <label for="option19" class="reserved">预留选项 3 (32)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option20" name="option20" value="16" disabled>
+                    <input type="checkbox" id="option20" name="option20" value="16">
                     <label for="option20" class="reserved">预留选项 4 (16)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option21" name="option21" value="8" disabled>
+                    <input type="checkbox" id="option21" name="option21" value="8">
                     <label for="option21" class="reserved">预留选项 5 (8)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option22" name="option22" value="4" disabled>
+                    <input type="checkbox" id="option22" name="option22" value="4">
                     <label for="option22" class="reserved">预留选项 6 (4)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option23" name="option23" value="2" disabled>
+                    <input type="checkbox" id="option23" name="option23" value="2">
                     <label for="option23" class="reserved">预留选项 7 (2)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option24" name="option24" value="1" disabled>
+                    <input type="checkbox" id="option24" name="option24" value="1">
                     <label for="option24" class="reserved">预留选项 8 (1)</label>
                 </div>
             </div>
@@ -285,35 +297,35 @@
             <div class="option-row">
                 <h3>第四排选项 (对应[X.X.])</h3>
                 <div class="option-item">
-                    <input type="checkbox" id="option25" name="option25" value="128" disabled>
+                    <input type="checkbox" id="option25" name="option25" value="128">
                     <label for="option25" class="reserved">预留选项 9 (128)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option26" name="option26" value="64" disabled>
+                    <input type="checkbox" id="option26" name="option26" value="64">
                     <label for="option26" class="reserved">预留选项 10 (64)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option27" name="option27" value="32" disabled>
+                    <input type="checkbox" id="option27" name="option27" value="32">
                     <label for="option27" class="reserved">预留选项 11 (32)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option28" name="option28" value="16" disabled>
-                    <label for="option28" class="reserved">交流车倾斜降速</label>
+                    <input type="checkbox" id="option28" name="option28" value="16">
+                    <label for="option28" class="reserved">交流车倾斜降速 (16)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option29" name="option29" value="8" disabled>
+                    <input type="checkbox" id="option29" name="option29" value="8">
                     <label for="option29" class="reserved">预留选项 13 (8)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option30" name="option30" value="4" disabled>
+                    <input type="checkbox" id="option30" name="option30" value="4">
                     <label for="option30" class="reserved">预留选项 14 (4)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option31" name="option31" value="2" disabled>
+                    <input type="checkbox" id="option31" name="option31" value="2">
                     <label for="option31" class="reserved">预留选项 15 (2)</label>
                 </div>
                 <div class="option-item">
-                    <input type="checkbox" id="option32" name="option32" value="1" disabled>
+                    <input type="checkbox" id="option32" name="option32" value="1">
                     <label for="option32" class="reserved">预留选项 16 (1)</label>
                 </div>
             </div>
@@ -379,7 +391,7 @@
             let value = 0;
             for (let i = startId; i <= endId; i++) {
                 const checkbox = document.getElementById('option' + i);
-                if (checkbox.checked && !checkbox.disabled) {
+                if (checkbox.checked) {
                     value += parseInt(checkbox.value);
                 }
             }
@@ -394,10 +406,8 @@
             // 更新每个选项
             for (let i = startId; i <= endId; i++) {
                 const checkbox = document.getElementById('option' + i);
-                if (!checkbox.disabled) {
-                    const optionValue = parseInt(checkbox.value);
-                    checkbox.checked = (decimalValue & optionValue) === optionValue;
-                }
+                const optionValue = parseInt(checkbox.value);
+                checkbox.checked = (decimalValue & optionValue) === optionValue;
             }
             
             return decimalValue;
