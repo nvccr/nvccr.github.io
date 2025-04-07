@@ -168,14 +168,14 @@
             background: #555;
         }
         /* 电池类型下拉框样式 */
-        .battery-select {
+        .driver-select {
             width: 100%;
             padding: 5px;
             font-size: 12px;
             border-radius: 3px;
             border: 1px solid #ddd;
         }
-                .driver-select {
+                .battery-select {
             width: 100%;
             padding: 5px;
             font-size: 12px;
@@ -351,8 +351,8 @@
                     <label for="option20-off" class="reserved">角度模拟限位关</label>
                 </div>
                 <div class="option-item">
-                    <label for="battery-type">驱动器类型:</label>
-                    <select id="battery-type" class="battery-select">
+                    <label for="driver-type">驱动器类型:</label>
+                    <select id="driver-type" class="driver-select">
                         <option value="0">直流液驱或直流电驱</option>
                         <option value="1">双二合一交流电驱</option>
                         <option value="2">三合一交流电驱</option>
@@ -455,8 +455,8 @@
             
             // 特殊处理第三排的电池类型选项
             if (startId === 17 && endId === 24) {
-                const batteryValue = parseInt(document.getElementById('battery-type').value);
-                value += batteryValue;
+                const driverValue = parseInt(document.getElementById('driver-type').value);
+                value += driverValue;
                 
                 // 计算其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -468,8 +468,8 @@
                 return value;
             }
               if (startId === 25 && endId === 32) {
-                const batteryValue = parseInt(document.getElementById('driver-type').value);
-                value += batteryValue;
+                const driverValue = parseInt(document.getElementById('battery-type').value);
+                value += driverValue;
                 
                 // 计算其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -498,8 +498,8 @@
             
             // 特殊处理第三排的电池类型选项
             if (startId === 17 && endId === 24) {
-                const batteryValue = decimalValue & 0b00001111; // 获取低4位
-                document.getElementById('battery-type').value = batteryValue;
+                const driverValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('driver-type').value = driverValue;
                 
                 // 更新其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -516,8 +516,8 @@
                 return decimalValue;
             }
             if (startId === 25 && endId === 32) {
-                const driverValue = decimalValue & 0b00001111; // 获取低4位
-                document.getElementById('driver-type').value = driverValue;
+                const batteryValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('battery-type').value = batteryValue;
                 
                 // 更新其他选项
                 for (let i = startId; i <= 20; i++) {
