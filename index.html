@@ -167,15 +167,8 @@
         .option-row::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
-        /* 电池类型下拉框样式 */
-        .driver-select {
-            width: 100%;
-            padding: 5px;
-            font-size: 12px;
-            border-radius: 3px;
-            border: 1px solid #ddd;
-        }
-                .battery-select {
+        /* 下拉框样式 */
+        .custom-select {
             width: 100%;
             padding: 5px;
             font-size: 12px;
@@ -351,14 +344,13 @@
                     <label for="option20-off" class="reserved">角度模拟限位关</label>
                 </div>
                 <div class="option-item">
-                    <label for="driver-type">驱动器类型:</label>
-                    <select id="driver-type" class="driver-select">
-                        <option value="0">直流液驱或直流电驱</option>
-                        <option value="1">双二合一交流电驱</option>
-                        <option value="2">三合一交流电驱</option>
-                        <option value="3">COBO小电驱</option>
-                        <option value="4">交流泵电驱</option>
-                        <option value="5">三交流电驱</option>
+                    <label for="battery-type">电池类型:</label>
+                    <select id="battery-type" class="custom-select">
+                        <option value="0">无电池类型</option>
+                        <option value="8">圣阳铅酸电池</option>
+                        <option value="4">锂电池</option>
+                        <option value="2">荷贝克-天能电池</option>
+                        <option value="1">邱健电池</option>
                     </select>
                 </div>
             </div>
@@ -390,12 +382,11 @@
                     <label for="option28-off" class="reserved">底盘无线防撞关</label>
                 </div>
                 <div class="option-item">
-                    <label for="battery-type">电池类型:</label>
-                    <select id="battery-type" class="battery-select">
-                        <option value="0">圣阳铅酸电池</option>
-                        <option value="1">锂电池</option>
-                        <option value="2">免维护-荷贝克/天能</option>
-                        <option value="3">免维护-邱健</option>
+                    <label for="driver-type">驱动器类型:</label>
+                    <select id="driver-type" class="custom-select">
+                        <option value="0">直流驱动器</option>
+                        <option value="1">二合一驱动器</option>
+                        <option value="2">三合一驱动器</option>
                     </select>
                 </div>
             </div>
@@ -455,8 +446,8 @@
             
             // 特殊处理第三排的电池类型选项
             if (startId === 17 && endId === 24) {
-                const driverValue = parseInt(document.getElementById('driver-type').value);
-                value += driverValue;
+                const batteryValue = parseInt(document.getElementById('battery-type').value);
+                value += batteryValue;
                 
                 // 计算其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -467,12 +458,14 @@
                 }
                 return value;
             }
-              if (startId === 25 && endId === 32) {
-                const driverValue = parseInt(document.getElementById('battery-type').value);
+            
+            // 特殊处理第四排的驱动器类型选项
+            if (startId === 25 && endId === 32) {
+                const driverValue = parseInt(document.getElementById('driver-type').value);
                 value += driverValue;
                 
                 // 计算其他选项
-                for (let i = startId; i <= 20; i++) {
+                for (let i = startId; i <= 28; i++) {
                     const radio = document.querySelector(`input[name="option${i}"]:checked`);
                     if (radio && radio.value !== "0") {
                         value += parseInt(radio.value);
@@ -498,8 +491,8 @@
             
             // 特殊处理第三排的电池类型选项
             if (startId === 17 && endId === 24) {
-                const driverValue = decimalValue & 0b00001111; // 获取低4位
-                document.getElementById('driver-type').value = driverValue;
+                const batteryValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('battery-type').value = batteryValue;
                 
                 // 更新其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -515,13 +508,15 @@
                 }
                 return decimalValue;
             }
+            
+            // 特殊处理第四排的驱动器类型选项
             if (startId === 25 && endId === 32) {
-                const batteryValue = decimalValue & 0b00001111; // 获取低4位
-                document.getElementById('battery-type').value = batteryValue;
+                const driverValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('driver-type').value = driverValue;
                 
                 // 更新其他选项
-                for (let i = startId; i <= 20; i++) {
-                    const optionValue = Math.pow(2, (20 - i) % 8 + 4); // 计算选项值 (128,64,32,16)
+                for (let i = startId; i <= 28; i++) {
+                    const optionValue = Math.pow(2, (28 - i) % 8 + 4); // 计算选项值 (128,64,32,16)
                     const radioOn = document.getElementById(`option${i}-on`);
                     const radioOff = document.getElementById(`option${i}-off`);
                     
