@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0030)http://192.168.29.139/xibo.li/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H9和数码管双向计算器</title>
     <style>
@@ -193,16 +193,12 @@
 </head>
 <body>
     <div class="container">
-        <h2>H9和数码管双向计算器</h2>
+        <h2>H9和数码管双向计算器【仅供参考，请以实际传递资料为准】</h2>
+        <h6>计算功能配置码：选择[选项 → 数码管]然后点击下面选项，最后点击[计算]按钮。反推功能选项：选择[数码管 → 选项]，然后输入车辆当前的四个功能配置，然后点击[计算]按钮。</h6>
         
         <div class="config-selector">
             <label for="config-select">选择功能配置表:</label>
-            <select id="config-select" class="custom-select">
-                <option value="0">4130702911ECU功能配置（软件版本P2）</option>
-                <option value="1">4130702432ECU功能配置（软件版本L4）</option>
-                <option value="2">铝壳v7功能配置</option>
-                <!-- 未来可以在这里添加更多配置表 -->
-            </select>
+            <select id="config-select" class="custom-select"><option value="0">4130702911ECU功能配置（软件版本P2）</option><option value="1">4130702432ECU功能配置（软件版本L4）</option><option value="2">铝壳v7功能配置</option></select>
         </div>
         
         <div class="mode-switch">
@@ -215,22 +211,22 @@
             <div class="digit-display">
                 <div class="digit-pair">
                     <div class="digit-label">[XX] (对应第一排(低16位低字节))</div>
-                    <div class="digit" id="digit1-display">00</div>
+                    <div class="digit" id="digit1-display" style="display: block;">00</div>
                     <input type="text" class="digit-input" id="digit1-input" value="00" maxlength="2" style="display: none;">
                 </div>
                 <div class="digit-pair">
                     <div class="digit-label">[X.X.] (对应第二排(低16位高字节))</div>
-                    <div class="digit" id="digit2-display">0.0.</div>
+                    <div class="digit" id="digit2-display" style="display: block;">0.0.</div>
                     <input type="text" class="digit-input" id="digit2-input" value="0.0." maxlength="4" style="display: none;">
                 </div>
                 <div class="digit-pair">
                     <div class="digit-label">[XX.] (对应第三排(高16位低字节))</div>
-                    <div class="digit" id="digit3-display">00.</div>
+                    <div class="digit" id="digit3-display" style="display: block;">00.</div>
                     <input type="text" class="digit-input" id="digit3-input" value="00." maxlength="3" style="display: none;">
                 </div>
                 <div class="digit-pair">
                     <div class="digit-label">[X.X] (对应第四排(高16位高字节))</div>
-                    <div class="digit" id="digit4-display">0.0</div>
+                    <div class="digit" id="digit4-display" style="display: block;">0.0</div>
                     <input type="text" class="digit-input" id="digit4-input" value="0.0" maxlength="3" style="display: none;">
                 </div>
             </div>
@@ -241,51 +237,51 @@
                 <h3>第一排(低16位低字节) (对应[XX])</h3>
                 <div class="option-item">
                     <input type="radio" id="option1-on" name="option1" value="128">
-                    <label for="option1-on">低电量语音报警循环播放开</label>
-                    <input type="radio" id="option1-off" name="option1" value="0" checked>
-                    <label for="option1-off">低电量语音报警循环播放关</label>
+                    <label for="option1-on">请选择上方功能表</label>
+                    <input type="radio" id="option1-off" name="option1" value="0" checked="">
+                    <label for="option1-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option2-on" name="option2" value="64">
-                    <label for="option2-on">比例下降阀</label>
-                    <input type="radio" id="option2-off" name="option2" value="0" checked>
-                    <label for="option2-off">开关下降阀</label>
+                    <label for="option2-on">请选择上方功能表</label>
+                    <input type="radio" id="option2-off" name="option2" value="0" checked="">
+                    <label for="option2-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option3-on" name="option3" value="32">
-                    <label for="option3-on">启动高速</label>
-                    <input type="radio" id="option3-off" name="option3" value="0" checked>
-                    <label for="option3-off">启动低速</label>
+                    <label for="option3-on">请选择上方功能表</label>
+                    <input type="radio" id="option3-off" name="option3" value="0" checked="">
+                    <label for="option3-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option4-on" name="option4" value="16">
-                    <label for="option4-on">并联阀得电高速</label>
-                    <input type="radio" id="option4-off" name="option4" value="0" checked>
-                    <label for="option4-off">并联阀得电低速</label>
+                    <label for="option4-on">请选择上方功能表</label>
+                    <input type="radio" id="option4-off" name="option4" value="0" checked="">
+                    <label for="option4-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option5-on" name="option5" value="8">
-                    <label for="option5-on">CAN波特率-250K</label>
-                    <input type="radio" id="option5-off" name="option5" value="0" checked>
-                    <label for="option5-off">CAN波特率-125K</label>
+                    <label for="option5-on">请选择上方功能表</label>
+                    <input type="radio" id="option5-off" name="option5" value="0" checked="">
+                    <label for="option5-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option6-on" name="option6" value="4">
-                    <label for="option6-on">平台无线防撞开启</label>
-                    <input type="radio" id="option6-off" name="option6" value="0" checked>
-                    <label for="option6-off">平台无线防撞关闭</label>
+                    <label for="option6-on">请选择上方功能表</label>
+                    <input type="radio" id="option6-off" name="option6" value="0" checked="">
+                    <label for="option6-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option7-on" name="option7" value="2">
-                    <label for="option7-on">上控举升反向开</label>
-                    <input type="radio" id="option7-off" name="option7" value="0" checked>
-                    <label for="option7-off">上控举升反向关</label>
+                    <label for="option7-on">请选择上方功能表</label>
+                    <input type="radio" id="option7-off" name="option7" value="0" checked="">
+                    <label for="option7-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option8-on" name="option8" value="1">
-                    <label for="option8-on">上控休眠开</label>
-                    <input type="radio" id="option8-off" name="option8" value="0" checked>
-                    <label for="option8-off">上控休眠关</label>
+                    <label for="option8-on">请选择上方功能表</label>
+                    <input type="radio" id="option8-off" name="option8" value="0" checked="">
+                    <label for="option8-off">请选择上方功能表</label>
                 </div>
             </div>
             
@@ -293,51 +289,51 @@
                 <h3>第二排(低16位高字节) (对应[X.X.])</h3>
                 <div class="option-item">
                     <input type="radio" id="option9-on" name="option9" value="128">
-                    <label for="option9-on">重量双载荷开</label>
-                    <input type="radio" id="option9-off" name="option9" value="0" checked>
-                    <label for="option9-off">重量双载荷关</label>
+                    <label for="option9-on">请选择上方功能表</label>
+                    <input type="radio" id="option9-off" name="option9" value="0" checked="">
+                    <label for="option9-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option10-on" name="option10" value="64">
-                    <label for="option10-on">举升限行开</label>
-                    <input type="radio" id="option10-off" name="option10" value="0" checked>
-                    <label for="option10-off">举升限行关</label>
+                    <label for="option10-on">请选择上方功能表</label>
+                    <input type="radio" id="option10-off" name="option10" value="0" checked="">
+                    <label for="option10-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option11-on" name="option11" value="32">
-                    <label for="option11-on">高度双区域开</label>
-                    <input type="radio" id="option11-off" name="option11" value="0" checked>
-                    <label for="option11-off">高度双区域关</label>
+                    <label for="option11-on">请选择上方功能表</label>
+                    <input type="radio" id="option11-off" name="option11" value="0" checked="">
+                    <label for="option11-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option12-on" name="option12" value="16">
-                    <label for="option12-on">免维护电池</label>
-                    <input type="radio" id="option12-off" name="option12" value="0" checked>
-                    <label for="option12-off">非免维护电池</label>
+                    <label for="option12-on">请选择上方功能表</label>
+                    <input type="radio" id="option12-off" name="option12" value="0" checked="">
+                    <label for="option12-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option13-on" name="option13" value="8">
-                    <label for="option13-on">锂电池</label>
-                    <input type="radio" id="option13-off" name="option13" value="0" checked>
-                    <label for="option13-off">非锂电池</label>
+                    <label for="option13-on">请选择上方功能表</label>
+                    <input type="radio" id="option13-off" name="option13" value="0" checked="">
+                    <label for="option13-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option14-on" name="option14" value="4">
-                    <label for="option14-on">防夹手减速下降开</label>
-                    <input type="radio" id="option14-off" name="option14" value="0" checked>
-                    <label for="option14-off">防夹手减速下降关</label>
+                    <label for="option14-on">请选择上方功能表</label>
+                    <input type="radio" id="option14-off" name="option14" value="0" checked="">
+                    <label for="option14-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option15-on" name="option15" value="2">
-                    <label for="option15-on">18报警后允许举升开</label>
-                    <input type="radio" id="option15-off" name="option15" value="0" checked>
-                    <label for="option15-off">18报警后允许举升关</label>
+                    <label for="option15-on">请选择上方功能表</label>
+                    <input type="radio" id="option15-off" name="option15" value="0" checked="">
+                    <label for="option15-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option16-on" name="option16" value="1">
-                    <label for="option16-on">预留选项开</label>
-                    <input type="radio" id="option16-off" name="option16" value="0" checked>
-                    <label for="option16-off">预留选项关</label>
+                    <label for="option16-on">请选择上方功能表</label>
+                    <input type="radio" id="option16-off" name="option16" value="0" checked="">
+                    <label for="option16-off">请选择上方功能表</label>
                 </div>
             </div>
             
@@ -345,38 +341,31 @@
                 <h3>第三排(高16位低字节) (对应[XX.])</h3>
                 <div class="option-item">
                     <input type="radio" id="option17-on" name="option17" value="128">
-                    <label for="option17-on">平台防撞超越开</label>
-                    <input type="radio" id="option17-off" name="option17" value="0" checked>
-                    <label for="option17-off">平台防撞超越关</label>
+                    <label for="option17-on">请选择上方功能表</label>
+                    <input type="radio" id="option17-off" name="option17" value="0" checked="">
+                    <label for="option17-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option18-on" name="option18" value="64">
-                    <label for="option18-on">韩标语音报警模式二开</label>
-                    <input type="radio" id="option18-off" name="option18" value="0" checked>
-                    <label for="option18-off">韩标语音报警模式一开</label>
+                    <label for="option18-on">请选择上方功能表</label>
+                    <input type="radio" id="option18-off" name="option18" value="0" checked="">
+                    <label for="option18-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option19-on" name="option19" value="32">
-                    <label for="option19-on">举升打开下降阀开</label>
-                    <input type="radio" id="option19-off" name="option19" value="0" checked>
-                    <label for="option19-off">举升打开下降阀关</label>
+                    <label for="option19-on">请选择上方功能表</label>
+                    <input type="radio" id="option19-off" name="option19" value="0" checked="">
+                    <label for="option19-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option20-on" name="option20" value="16">
-                    <label for="option20-on">角度模拟限位开</label>
-                    <input type="radio" id="option20-off" name="option20" value="0" checked>
-                    <label for="option20-off">角度模拟限位关</label>
+                    <label for="option20-on">请选择上方功能表</label>
+                    <input type="radio" id="option20-off" name="option20" value="0" checked="">
+                    <label for="option20-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <label for="driver-type">驱动器类型:</label>
-                    <select id="driver-type" class="custom-select">
-                        <option value="0">直流液驱或直流电驱</option>
-                        <option value="1">双二合一交流电驱</option>
-                        <option value="2">三合一交流电驱</option>
-                        <option value="3">COBO小电驱</option>
-                        <option value="4">交流泵电驱</option>
-                        <option value="5">三交流电驱</option>
-                    </select>
+                    <select id="driver-type" class="custom-select"><option value="0">请选择上方功能表</option><option value="1">请选择上方功能表</option><option value="2">请选择上方功能表</option><option value="3">请选择上方功能表</option><option value="4">请选择上方功能表</option><option value="5">请选择上方功能表</option></select>
                 </div>
             </div>
             
@@ -384,36 +373,31 @@
                 <h3>第四排(高16位高字节) (对应[X.X])</h3>
                 <div class="option-item">
                     <input type="radio" id="option25-on" name="option25" value="128">
-                    <label for="option25-on">平台防撞三级禁行开</label>
-                    <input type="radio" id="option25-off" name="option25" value="0" checked>
-                    <label for="option25-off">平台防撞三级禁行关</label>
+                    <label for="option25-on">请选择上方功能表</label>
+                    <input type="radio" id="option25-off" name="option25" value="0" checked="">
+                    <label for="option25-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option26-on" name="option26" value="64">
-                    <label for="option26-on">底盘防撞三级禁行开</label>
-                    <input type="radio" id="option26-off" name="option26" value="0" checked>
-                    <label for="option26-off">底盘防撞三级禁行关</label>
+                    <label for="option26-on">请选择上方功能表</label>
+                    <input type="radio" id="option26-off" name="option26" value="0" checked="">
+                    <label for="option26-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option27-on" name="option27" value="32">
-                    <label for="option27-on">底盘防撞超越开</label>
-                    <input type="radio" id="option27-off" name="option27" value="0" checked>
-                    <label for="option27-off">底盘防撞超越关</label>
+                    <label for="option27-on">请选择上方功能表</label>
+                    <input type="radio" id="option27-off" name="option27" value="0" checked="">
+                    <label for="option27-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option28-on" name="option28" value="16">
-                    <label for="option28-on">底盘无线防撞开</label>
-                    <input type="radio" id="option28-off" name="option28" value="0" checked>
-                    <label for="option28-off">底盘无线防撞关</label>
+                    <label for="option28-on">请选择上方功能表</label>
+                    <input type="radio" id="option28-off" name="option28" value="0" checked="">
+                    <label for="option28-off">请选择上方功能表</label>
                 </div>
                 <div class="option-item">
                     <label for="battery-type">电池类型:</label>
-                    <select id="battery-type" class="custom-select">
-                        <option value="0">圣阳铅酸电池</option>
-                        <option value="1">锂电池</option>
-                        <option value="2">免维护-荷贝克/天能</option>
-                        <option value="3">免维护-邱健</option>
-                    </select>
+                    <select id="battery-type" class="custom-select"><option value="0">请选择上方功能表</option><option value="1">请选择上方功能表</option><option value="2">请选择上方功能表</option><option value="3">请选择上方功能表</option></select>
                 </div>
             </div>
         </div>
@@ -421,7 +405,7 @@
         <button class="calculate-btn" id="calculateBtn">计算/更新</button>
         
         <div class="result-section">
-            <h6>Copyright © North Valley Research</h6>
+            <h6>Copyright ? North Valley Research</h6>
         </div>
     </div>
 
@@ -431,7 +415,7 @@
         
         // 功能配置表数据
         const configData = [
-            {
+             {
                 name: "4130702911ECU功能配置（软件版本P2）",
                 options: {
                     "option1": { on: "低电量语音报警循环播放开", off: "低电量语音报警循环播放关" },
@@ -518,7 +502,7 @@
                 ]
             },
             {
-                name: "铝壳v7功能配置",
+                name: "预留_软件版本D6.6/A7.6",
                 options: {
                     "option1": { on: "预留", off: "预留" },
                     "option2": { on: "比例下降阀", off: "开关下降阀" },
@@ -554,11 +538,14 @@
                     { value: "1", text: "火箭" },
                     { value: "2", text: "快猛" },
                     { value: "3", text: "丰江" },
-                    { value: "4", text: "锂电池（预留）" },
-                    { value: "5", text: "荷贝克" },
-                    { value: "6", text: "圣阳" }
+                    { value: "4", text: "锂电池" },
+                    { value: "5", text: "荷贝克/发现" },
+                    { value: "6", text: "圣阳" },
+                    { value: "7", text: "骆驼" },
+                    { value: "8", text: "超威" },
+                    { value: "9", text: "天能" }
                 ]
-            }
+            },
             // 未来可以在这里添加更多配置表
         ];
         
@@ -851,5 +838,6 @@
         updateOptionsForConfig(0); // 默认加载第一个配置
         switchDisplayMode();
     </script>
-</body>
-</html>
+
+
+</body></html>
