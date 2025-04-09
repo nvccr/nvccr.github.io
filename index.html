@@ -175,11 +175,35 @@
             border-radius: 3px;
             border: 1px solid #ddd;
         }
+        .config-selector {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .config-selector label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        #config-select {
+            width: 300px;
+            padding: 8px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>H9和数码管双向计算器</h2>
+        
+        <div class="config-selector">
+            <label for="config-select">选择功能配置表:</label>
+            <select id="config-select" class="custom-select">
+                <option value="0">4130702911ECU功能配置（软件版本P2）</option>
+                <option value="1">4130702432ECU功能配置（软件版本L4）</option>
+                <option value="2">铝壳v7功能配置</option>
+                <!-- 未来可以在这里添加更多配置表 -->
+            </select>
+        </div>
         
         <div class="mode-switch">
             <button class="mode-btn active" id="optionToDigitMode">选项 → 数码管</button>
@@ -197,17 +221,17 @@
                 <div class="digit-pair">
                     <div class="digit-label">[X.X.] (对应第二排(低16位高字节))</div>
                     <div class="digit" id="digit2-display">0.0.</div>
-                    <input type="text" class="digit-input" id="digit2-input" value="00" maxlength="2" style="display: none;">
+                    <input type="text" class="digit-input" id="digit2-input" value="0.0." maxlength="4" style="display: none;">
                 </div>
                 <div class="digit-pair">
                     <div class="digit-label">[XX.] (对应第三排(高16位低字节))</div>
                     <div class="digit" id="digit3-display">00.</div>
-                    <input type="text" class="digit-input" id="digit3-input" value="00" maxlength="2" style="display: none;">
+                    <input type="text" class="digit-input" id="digit3-input" value="00." maxlength="3" style="display: none;">
                 </div>
                 <div class="digit-pair">
                     <div class="digit-label">[X.X] (对应第四排(高16位高字节))</div>
                     <div class="digit" id="digit4-display">0.0</div>
-                    <input type="text" class="digit-input" id="digit4-input" value="00" maxlength="2" style="display: none;">
+                    <input type="text" class="digit-input" id="digit4-input" value="0.0" maxlength="3" style="display: none;">
                 </div>
             </div>
         </div>
@@ -287,15 +311,15 @@
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option12-on" name="option12" value="16">
-                    <label for="option12-on" class="reserved">免维护电池</label>
+                    <label for="option12-on">免维护电池</label>
                     <input type="radio" id="option12-off" name="option12" value="0" checked>
-                    <label for="option12-off" class="reserved">非免维护电池</label>
+                    <label for="option12-off">非免维护电池</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option13-on" name="option13" value="8">
-                    <label for="option13-on" class="reserved">锂电池</label>
+                    <label for="option13-on">锂电池</label>
                     <input type="radio" id="option13-off" name="option13" value="0" checked>
-                    <label for="option13-off" class="reserved">非锂电池</label>
+                    <label for="option13-off">非锂电池</label>
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option14-on" name="option14" value="4">
@@ -311,9 +335,9 @@
                 </div>
                 <div class="option-item">
                     <input type="radio" id="option16-on" name="option16" value="1">
-                    <label for="option16-on" class="reserved">预留选项开</label>
+                    <label for="option16-on">预留选项开</label>
                     <input type="radio" id="option16-off" name="option16" value="0" checked>
-                    <label for="option16-off" class="reserved">预留选项关</label>
+                    <label for="option16-off">预留选项关</label>
                 </div>
             </div>
             
@@ -344,8 +368,8 @@
                     <label for="option20-off">角度模拟限位关</label>
                 </div>
                 <div class="option-item">
-                    <label for="battery-type">驱动器类型:</label>
-                    <select id="battery-type" class="custom-select">
+                    <label for="driver-type">驱动器类型:</label>
+                    <select id="driver-type" class="custom-select">
                         <option value="0">直流液驱或直流电驱</option>
                         <option value="1">双二合一交流电驱</option>
                         <option value="2">三合一交流电驱</option>
@@ -383,8 +407,8 @@
                     <label for="option28-off">底盘无线防撞关</label>
                 </div>
                 <div class="option-item">
-                    <label for="driver-type">电池类型:</label>
-                    <select id="driver-type" class="custom-select">
+                    <label for="battery-type">电池类型:</label>
+                    <select id="battery-type" class="custom-select">
                         <option value="0">圣阳铅酸电池</option>
                         <option value="1">锂电池</option>
                         <option value="2">免维护-荷贝克/天能</option>
@@ -404,6 +428,203 @@
     <script>
         // 当前模式：true为选项→数码管，false为数码管→选项
         let currentMode = true;
+        
+        // 功能配置表数据
+        const configData = [
+            {
+                name: "4130702911ECU功能配置（软件版本P2）",
+                options: {
+                    "option1": { on: "低电量语音报警循环播放开", off: "低电量语音报警循环播放关" },
+                    "option2": { on: "比例下降阀", off: "开关下降阀" },
+                    "option3": { on: "启动高速", off: "启动低速" },
+                    "option4": { on: "并联阀得电高速", off: "并联阀得电低速" },
+                    "option5": { on: "CAN波特率-250K", off: "CAN波特率-125K" },
+                    "option6": { on: "平台无线防撞开启", off: "平台无线防撞关闭" },
+                    "option7": { on: "上控举升反向开", off: "上控举升反向关" },
+                    "option8": { on: "上控休眠开", off: "上控休眠关" },
+                    "option9": { on: "重量双载荷开", off: "重量双载荷关" },
+                    "option10": { on: "举升限行开", off: "举升限行关" },
+                    "option11": { on: "高度双区域开", off: "高度双区域关" },
+                    "option12": { on: "免维护电池", off: "非免维护电池" },
+                    "option13": { on: "锂电池", off: "非锂电池" },
+                    "option14": { on: "防夹手减速下降开", off: "防夹手减速下降关" },
+                    "option15": { on: "18报警后允许举升开", off: "18报警后允许举升关" },
+                    "option16": { on: "预留选项开", off: "预留选项关" },
+                    "option17": { on: "平台防撞超越开", off: "平台防撞超越关" },
+                    "option18": { on: "韩标语音报警模式二开", off: "韩标语音报警模式一开" },
+                    "option19": { on: "举升打开下降阀开", off: "举升打开下降阀关" },
+                    "option20": { on: "角度模拟限位开", off: "角度模拟限位关" },
+                    "option25": { on: "平台防撞三级禁行开", off: "平台防撞三级禁行关" },
+                    "option26": { on: "底盘防撞三级禁行开", off: "底盘防撞三级禁行关" },
+                    "option27": { on: "底盘防撞超越开", off: "底盘防撞超越关" },
+                    "option28": { on: "底盘无线防撞开", off: "底盘无线防撞关" }
+                },
+                driverTypeOptions: [
+                    { value: "0", text: "直流液驱或直流电驱" },
+                    { value: "1", text: "双二合一交流电驱" },
+                    { value: "2", text: "三合一交流电驱" },
+                    { value: "3", text: "COBO小电驱" },
+                    { value: "4", text: "交流泵电驱" },
+                    { value: "5", text: "三交流电驱" }
+                ],
+                batteryTypeOptions: [
+                    { value: "0", text: "圣阳铅酸电池" },
+                    { value: "1", text: "锂电池" },
+                    { value: "2", text: "免维护-荷贝克/天能" },
+                    { value: "3", text: "免维护-邱健" }
+                ]
+            },
+            {
+                name: "4130702432ECU功能配置（软件版本L4）",
+                options: {
+                    "option1": { on: "使用新主阀", off: "使用旧主阀" },
+                    "option2": { on: "预留", off: "预留" },
+                    "option3": { on: "启动高速", off: "启动低速" },
+                    "option4": { on: "并联阀得电高速", off: "并联阀得电低速" },
+                    "option5": { on: "预留", off: "预留" },
+                    "option6": { on: "平台无线防撞开启", off: "平台无线防撞关闭" },
+                    "option7": { on: "上控举升反向开", off: "上控举升反向关" },
+                    "option8": { on: "上控休眠开", off: "上控休眠关" },
+                    "option9": { on: "预留", off: "预留" },
+                    "option10": { on: "举升限行开", off: "举升限行关" },
+                    "option11": { on: "预留", off: "预留" },
+                    "option12": { on: "预留", off: "预留" },
+                    "option13": { on: "预留", off: "预留" },
+                    "option14": { on: "预留", off: "预留" },
+                    "option15": { on: "18报警后允许举升开", off: "18报警后允许举升关" },
+                    "option16": { on: "预留", off: "预留" },
+                    "option17": { on: "预留", off: "预留" },
+                    "option18": { on: "预留", off: "预留" },
+                    "option19": { on: "预留", off: "预留" },
+                    "option20": { on: "预留", off: "预留" },
+                    "option25": { on: "预留", off: "预留" },
+                    "option26": { on: "预留", off: "预留" },
+                    "option27": { on: "预留", off: "预留" },
+                    "option28": { on: "预留", off: "预留" }
+                },
+                driverTypeOptions: [
+                    { value: "0", text: "直流液驱或直流电驱" },
+                    { value: "1", text: "双二合一交流电驱" },
+                    { value: "2", text: "三合一交流电驱" },
+                    { value: "3", text: "COBO小电驱" },
+                    { value: "4", text: "交流泵电驱" },
+                    { value: "5", text: "三交流电驱" }
+                ],
+                batteryTypeOptions: [
+                    { value: "0", text: "圣阳铅酸电池" },
+                    { value: "1", text: "锂电池" },
+                    { value: "2", text: "免维护-荷贝克/天能" },
+                    { value: "3", text: "免维护-邱健" }
+                ]
+            },
+            {
+                name: "铝壳v7功能配置",
+                options: {
+                    "option1": { on: "预留", off: "预留" },
+                    "option2": { on: "比例下降阀", off: "开关下降阀" },
+                    "option3": { on: "启动高速", off: "启动低速" },
+                    "option4": { on: "并联阀得电高速", off: "并联阀得电低速" },
+                    "option5": { on: "预留", off: "预留" },
+                    "option6": { on: "预留", off: "预留" },
+                    "option7": { on: "预留", off: "预留" },
+                    "option8": { on: "启用上控休眠功能", off: "关闭上控休眠功能" },
+                    "option9": { on: "预留", off: "预留" },
+                    "option10": { on: "预留", off: "预留" },
+                    "option11": { on: "预留", off: "预留" },
+                    "option12": { on: "预留", off: "预留" },
+                    "option13": { on: "预留", off: "预留" },
+                    "option14": { on: "预留", off: "预留" },
+                    "option15": { on: "预留", off: "预留" },
+                    "option16": { on: "预留", off: "预留" },
+                    "option17": { on: "预留", off: "预留" },
+                    "option18": { on: "预留", off: "预留" },
+                    "option19": { on: "预留", off: "预留" },
+                    "option20": { on: "预留", off: "预留" },
+                    "option25": { on: "英文模式", off: "中文模式" },
+                    "option26": { on: "-", off: "单通道压力传感器" },
+                    "option27": { on: "低速阀功能关闭", off: "低速阀功能开启（液驱ECU默认开启）" },
+                    "option28": { on: "坑洞保护报警开启", off: "坑洞保护报警关闭" }
+                },
+                driverTypeOptions: [
+                    { value: "0", text: "普通液驱电机和直流电驱电机控制器" },
+                    { value: "1", text: "交流泵电机控制器" }
+                ],
+                batteryTypeOptions: [
+                    { value: "0", text: "邱健" },
+                    { value: "1", text: "火箭" },
+                    { value: "2", text: "快猛" },
+                    { value: "3", text: "丰江" },
+                    { value: "4", text: "锂电池（预留）" },
+                    { value: "5", text: "荷贝克" },
+                    { value: "6", text: "圣阳" }
+                ]
+            }
+            // 未来可以在这里添加更多配置表
+        ];
+        
+        // 初始化配置选择器
+        function initConfigSelector() {
+            const select = document.getElementById('config-select');
+            select.innerHTML = '';
+            
+            configData.forEach((config, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = config.name;
+                select.appendChild(option);
+            });
+            
+            // 添加事件监听器
+            select.addEventListener('change', function() {
+                updateOptionsForConfig(this.value);
+            });
+        }
+        
+        // 更新选项显示以匹配选定的配置
+        function updateOptionsForConfig(configIndex) {
+            const config = configData[configIndex];
+            
+            // 更新所有选项的标签
+            for (const optionName in config.options) {
+                const option = config.options[optionName];
+                const onLabel = document.querySelector(`label[for="${optionName}-on"]`);
+                const offLabel = document.querySelector(`label[for="${optionName}-off"]`);
+                
+                if (onLabel && offLabel) {
+                    onLabel.textContent = option.on;
+                    offLabel.textContent = option.off;
+                    
+                    // 如果选项是"预留"或"-"，则设为灰色
+                    if (option.on === "预留" || option.on === "-" || option.off === "预留" || option.off === "-") {
+                        onLabel.classList.add('reserved');
+                        offLabel.classList.add('reserved');
+                    } else {
+                        onLabel.classList.remove('reserved');
+                        offLabel.classList.remove('reserved');
+                    }
+                }
+            }
+            
+            // 更新驱动器类型选项
+            const driverTypeSelect = document.getElementById('driver-type');
+            driverTypeSelect.innerHTML = '';
+            config.driverTypeOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.text;
+                driverTypeSelect.appendChild(option);
+            });
+            
+            // 更新电池类型选项
+            const batteryTypeSelect = document.getElementById('battery-type');
+            batteryTypeSelect.innerHTML = '';
+            config.batteryTypeOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.text;
+                batteryTypeSelect.appendChild(option);
+            });
+        }
         
         // 模式切换
         document.getElementById('optionToDigitMode').addEventListener('click', function() {
@@ -434,11 +655,11 @@
                 displayElements.forEach(el => el.style.display = 'none');
                 inputElements.forEach(el => el.style.display = 'block');
                 
-                // 初始化输入框的值
+                // 初始化输入框的值，保留小数点
                 document.getElementById('digit1-input').value = document.getElementById('digit1-display').textContent;
-                document.getElementById('digit2-input').value = document.getElementById('digit2-display').textContent.replace(/\./g, '');
-                document.getElementById('digit3-input').value = document.getElementById('digit3-display').textContent.replace('.', '');
-                document.getElementById('digit4-input').value = document.getElementById('digit4-display').textContent.replace(/\./g, '');
+                document.getElementById('digit2-input').value = document.getElementById('digit2-display').textContent;
+                document.getElementById('digit3-input').value = document.getElementById('digit3-display').textContent;
+                document.getElementById('digit4-input').value = document.getElementById('digit4-display').textContent;
             }
         }
         
@@ -446,10 +667,10 @@
         function calculateRowValue(startId, endId) {
             let value = 0;
             
-            // 特殊处理第三排的电池类型选项
+            // 特殊处理第三排的驱动器类型选项
             if (startId === 17 && endId === 24) {
-                const batteryValue = parseInt(document.getElementById('battery-type').value);
-                value += batteryValue;
+                const driverValue = parseInt(document.getElementById('driver-type').value);
+                value += driverValue;
                 
                 // 计算其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -461,10 +682,10 @@
                 return value;
             }
             
-            // 特殊处理第四排的驱动器类型选项
+            // 特殊处理第四排的电池类型选项
             if (startId === 25 && endId === 32) {
-                const driverValue = parseInt(document.getElementById('driver-type').value);
-                value += driverValue;
+                const batteryValue = parseInt(document.getElementById('battery-type').value);
+                value += batteryValue;
                 
                 // 计算其他选项
                 for (let i = startId; i <= 28; i++) {
@@ -491,10 +712,10 @@
             // 将十六进制转换为十进制
             const decimalValue = parseInt(hexValue, 16);
             
-            // 特殊处理第三排的电池类型选项
+            // 特殊处理第三排的驱动器类型选项
             if (startId === 17 && endId === 24) {
-                const batteryValue = decimalValue & 0b00001111; // 获取低4位
-                document.getElementById('battery-type').value = batteryValue;
+                const driverValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('driver-type').value = driverValue;
                 
                 // 更新其他选项
                 for (let i = startId; i <= 20; i++) {
@@ -511,10 +732,10 @@
                 return decimalValue;
             }
             
-            // 特殊处理第四排的驱动器类型选项
+            // 特殊处理第四排的电池类型选项
             if (startId === 25 && endId === 32) {
-                const driverValue = decimalValue & 0b00001111; // 获取低4位
-                document.getElementById('driver-type').value = driverValue;
+                const batteryValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('battery-type').value = batteryValue;
                 
                 // 更新其他选项
                 for (let i = startId; i <= 28; i++) {
@@ -577,25 +798,35 @@
                 const digit3Value = document.getElementById('digit3-input').value.toUpperCase();
                 const digit4Value = document.getElementById('digit4-input').value.toUpperCase();
                 
-                // 验证输入是否为有效的十六进制
-                const hexRegex = /^[0-9A-Fa-f]{2}$/;
-                if (!hexRegex.test(digit1Value) || !hexRegex.test(digit2Value) || 
-                    !hexRegex.test(digit3Value) || !hexRegex.test(digit4Value)) {
-                    alert('请输入有效的两位十六进制数 (00-FF)');
+                // 验证输入是否为有效的格式
+                const hex1Regex = /^[0-9A-F]{2}$/;         // XX → 2位十六进制
+                const hex2Regex = /^[0-9A-F]\.[0-9A-F]\.$/; // X.X. → 带2个点
+                const hex3Regex = /^[0-9A-F]{2}\.$/;        // XX. → 2位+1点
+                const hex4Regex = /^[0-9A-F]\.[0-9A-F]$/;   // X.X → 带1点
+                
+                if (!hex1Regex.test(digit1Value) || !hex2Regex.test(digit2Value) || 
+                    !hex3Regex.test(digit3Value) || !hex4Regex.test(digit4Value)) {
+                    alert('请输入正确格式：\n第一排：XX (如 1A)\n第二排：X.X. (如 0.F.)\n第三排：XX. (如 A3.)\n第四排：X.X (如 9.0)');
                     return;
                 }
                 
+                // 移除所有小数点进行计算
+                const row1Value = parseInt(digit1Value, 16);
+                const row2Value = parseInt(digit2Value.replace(/\./g, ''), 16);
+                const row3Value = parseInt(digit3Value.replace('.', ''), 16);
+                const row4Value = parseInt(digit4Value.replace('.', ''), 16);
+                
                 // 更新选项状态
-                const row1Value = updateOptionsFromHex(digit1Value, 1, 8);
-                const row2Value = updateOptionsFromHex(digit2Value, 9, 16);
-                const row3Value = updateOptionsFromHex(digit3Value, 17, 24);
-                const row4Value = updateOptionsFromHex(digit4Value, 25, 32);
+                updateOptionsFromHex(digit1Value, 1, 8);
+                updateOptionsFromHex(digit2Value.replace(/\./g, ''), 9, 16);
+                updateOptionsFromHex(digit3Value.replace('.', ''), 17, 24);
+                updateOptionsFromHex(digit4Value.replace('.', ''), 25, 32);
                 
                 // 更新数码管显示
                 document.getElementById('digit1-display').textContent = digit1Value;
-                document.getElementById('digit2-display').textContent = digit2Value.split('').join('.') + '.';
-                document.getElementById('digit3-display').textContent = digit3Value + '.';
-                document.getElementById('digit4-display').textContent = digit4Value.split('').join('.');
+                document.getElementById('digit2-display').textContent = digit2Value;
+                document.getElementById('digit3-display').textContent = digit3Value;
+                document.getElementById('digit4-display').textContent = digit4Value;
                 
                 // 更新结果展示
                 updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
@@ -604,21 +835,20 @@
         
         // 更新结果展示
         function updateResultDisplay(row1Value, row2Value, row3Value, row4Value) {
-            document.getElementById('result1').textContent = document.getElementById('digit1-display').textContent;
-            document.getElementById('result2').textContent = document.getElementById('digit2-display').textContent;
-            document.getElementById('result3').textContent = document.getElementById('digit3-display').textContent;
-            document.getElementById('result4').textContent = document.getElementById('digit4-display').textContent;
-            
-            document.getElementById('resultValue1').textContent = row1Value;
-            document.getElementById('resultValue2').textContent = row2Value;
-            document.getElementById('resultValue3').textContent = row3Value;
-            document.getElementById('resultValue4').textContent = row4Value;
+            // 如果有结果展示元素，可以在这里更新
+            // 例如：
+            // document.getElementById('result1').textContent = row1Value;
+            // document.getElementById('result2').textContent = row2Value;
+            // document.getElementById('result3').textContent = row3Value;
+            // document.getElementById('result4').textContent = row4Value;
         }
         
         // 绑定计算按钮
         document.getElementById('calculateBtn').addEventListener('click', calculate);
         
         // 初始化
+        initConfigSelector();
+        updateOptionsForConfig(0); // 默认加载第一个配置
         switchDisplayMode();
     </script>
 </body>
