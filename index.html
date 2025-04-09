@@ -415,6 +415,49 @@
         
         // 功能配置表数据
         const configData = [
+            {
+                name: "4130714442防碰撞ECU功能配置",
+                options: {
+                    "option1": { on: "低电量循环报警", off: "低电量单次报警" },
+                    "option2": { on: "比例下降阀", off: "开关下降阀" },
+                    "option3": { on: "启动高速", off: "启动低速" },
+                    "option4": { on: "并联阀得电高速", off: "并联阀得电低速" },
+                    "option5": { on: "CAN波特率-250k", off: "CAN波特率-125k" },
+                    "option6": { on: "平台无线防撞开启", off: "平台无线防撞关闭" },
+                    "option7": { on: "上控举升反向开", off: "上控举升反向关" },
+                    "option8": { on: "上控休眠开", off: "上控休眠关" },
+                    "option9": { on: "重量双载荷开", off: "重量双载荷关" },
+                    "option10": { on: "举升限行开", off: "举升限行关" },
+                    "option11": { on: "高度双区域开", off: "高度双区域关" },
+                    "option12": { on: "预留", off: "预留" },
+                    "option13": { on: "预留", off: "预留" },
+                    "option14": { on: "防夹手减速下降开", off: "防夹手减速下降关" },
+                    "option15": { on: "18报警后允许举升开", off: "18报警后允许举升关" },
+                    "option16": { on: "预留", off: "预留" },
+                    "option17": { on: "（平台）防撞超越开", off: "（平台）防撞超越关" },
+                    "option18": { on: "韩标语音报警模式一", off: "韩标语音报警模式二" },
+                    "option19": { on: "预留", off: "预留" },
+                    "option20": { on: "角度模拟限位开", off: "角度模拟限位关" },
+                    "option25": { on: "（平台）防撞三级禁行开", off: "（平台）防撞三级禁行关" },
+                    "option26": { on: "（底盘）防撞三级禁行开", off: "（底盘）防撞三级禁行关" },
+                    "option27": { on: "（底盘）防撞超越开", off: "（底盘）防撞超越关" },
+                    "option28": { on: "（底盘）无线防撞开", off: "（底盘）无线防撞关" }
+                },
+                driverTypeOptions: [
+                    { value: "0", text: "直流液驱或直流电驱" },
+                    { value: "1", text: "双二合一交流电驱" },
+                    { value: "2", text: "三合一交流电驱" },
+                    { value: "3", text: "COBO小电驱" },
+                    { value: "4", text: "交流泵电驱" },
+                    { value: "5", text: "三交流电驱" }
+                ],
+                batteryTypeOptions: [
+                    { value: "0", text: "圣阳铅酸电池" },
+                    { value: "1", text: "锂电池" },
+                    { value: "2", text: "免维护-荷贝克/天能" },
+                    { value: "3", text: "免维护-邱健" }
+                ]
+            },
              {
                 name: "4130702911ECU功能配置（软件版本P2）",
                 options: {
@@ -499,51 +542,6 @@
                     { value: "1", text: "锂电池" },
                     { value: "2", text: "免维护-荷贝克/天能" },
                     { value: "3", text: "免维护-邱健" }
-                ]
-            },
-            {
-                name: "预留_软件版本D6.6/A7.6",
-                options: {
-                    "option1": { on: "预留", off: "预留" },
-                    "option2": { on: "比例下降阀", off: "开关下降阀" },
-                    "option3": { on: "启动高速", off: "启动低速" },
-                    "option4": { on: "并联阀得电高速", off: "并联阀得电低速" },
-                    "option5": { on: "预留", off: "预留" },
-                    "option6": { on: "预留", off: "预留" },
-                    "option7": { on: "预留", off: "预留" },
-                    "option8": { on: "启用上控休眠功能", off: "关闭上控休眠功能" },
-                    "option9": { on: "预留", off: "预留" },
-                    "option10": { on: "预留", off: "预留" },
-                    "option11": { on: "预留", off: "预留" },
-                    "option12": { on: "预留", off: "预留" },
-                    "option13": { on: "预留", off: "预留" },
-                    "option14": { on: "预留", off: "预留" },
-                    "option15": { on: "预留", off: "预留" },
-                    "option16": { on: "预留", off: "预留" },
-                    "option17": { on: "预留", off: "预留" },
-                    "option18": { on: "预留", off: "预留" },
-                    "option19": { on: "预留", off: "预留" },
-                    "option20": { on: "预留", off: "预留" },
-                    "option25": { on: "英文模式", off: "中文模式" },
-                    "option26": { on: "-", off: "单通道压力传感器" },
-                    "option27": { on: "低速阀功能关闭", off: "低速阀功能开启（液驱ECU默认开启）" },
-                    "option28": { on: "坑洞保护报警开启", off: "坑洞保护报警关闭" }
-                },
-                driverTypeOptions: [
-                    { value: "0", text: "普通液驱电机和直流电驱电机控制器" },
-                    { value: "1", text: "交流泵电机控制器" }
-                ],
-                batteryTypeOptions: [
-                    { value: "0", text: "邱健" },
-                    { value: "1", text: "火箭" },
-                    { value: "2", text: "快猛" },
-                    { value: "3", text: "丰江" },
-                    { value: "4", text: "锂电池" },
-                    { value: "5", text: "荷贝克/发现" },
-                    { value: "6", text: "圣阳" },
-                    { value: "7", text: "骆驼" },
-                    { value: "8", text: "超威" },
-                    { value: "9", text: "天能" }
                 ]
             },
             // 未来可以在这里添加更多配置表
