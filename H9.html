@@ -1,0 +1,833 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网站统计-->
+    <script>
+!function(p){"use strict";!function(t){var s=window,e=document,i=p,c="".concat("https:"===e.location.protocol?"https://":"http://","sdk.51.la/js-sdk-pro.min.js"),n=e.createElement("script"),r=e.getElementsByTagName("script")[0];n.type="text/javascript",n.setAttribute("charset","UTF-8"),n.async=!0,n.src=c,n.id="LA_COLLECT",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:"3LofSwbXxzUEngMy",ck:"3LofSwbXxzUEngMy"});
+</script>
+    <!-- 网站统计结束-->
+    <title>H9和数码管双向计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .display-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .digit-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .digit-pair {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .digit {
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            font-weight: bold;
+            background-color: #333;
+            color: #ff0;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: center;
+            width: 80px;
+        }
+        .digit-input {
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            font-weight: bold;
+            background-color: #444;
+            color: #ff0;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            width: 80px;
+        }
+        .digit-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .options-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .option-row {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .option-row h3 {
+            position: absolute;
+            margin-top: -25px;
+        }
+        .option-item {
+            flex: 0 0 auto;
+            width: 110px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .option-item input[type="radio"] {
+            margin-right: 5px;
+            width: 14px;
+            height: 14px;
+            vertical-align: middle;
+        }
+        .option-item label {
+            font-size: 12px;
+            display: block;
+            vertical-align: middle;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        .reserved {
+            color: #999;
+            font-style: italic;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .calculate-btn:hover {
+            background-color: #45a049;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .mode-switch {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .mode-btn {
+            padding: 8px 16px;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+        }
+        .mode-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .mode-btn:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+        .mode-btn:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+        .option-row::-webkit-scrollbar {
+            height: 6px;
+        }
+        .option-row::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .option-row::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        .option-row::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* 下拉框样式 */
+        .custom-select {
+            width: 100%;
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        .config-selector {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .config-selector label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        #config-select {
+            width: 300px;
+            padding: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>H9和数码管双向计算器【仅供参考，请以实际传递资料为准】</h2>
+        <h6>计算功能配置码：选择[选项 → 数码管]然后点击下面选项，最后点击[计算]按钮。反推功能选项：选择[数码管 → 选项]，然后输入车辆当前的四个功能配置，然后点击[计算]按钮。</h6>
+        
+        <div class="config-selector">
+            <label for="config-select">选择功能配置表:</label>
+            <select id="config-select" class="custom-select"><option value="0">4130702911ECU功能配置（软件版本P2）</option><option value="1">4130702432ECU功能配置（软件版本L4）</option><option value="2">铝壳v7功能配置</option></select>
+        </div>
+        
+        <div class="mode-switch">
+            <button class="mode-btn active" id="optionToDigitMode">选项 → 数码管</button>
+            <button class="mode-btn" id="digitToOptionMode">数码管 → 选项</button>
+        </div>
+        
+        <div class="display-section">
+            <h3>数码管显示</h3>
+            <div class="digit-display">
+                <div class="digit-pair">
+                    <div class="digit-label">[XX] (对应第一排(低16位低字节))</div>
+                    <div class="digit" id="digit1-display" style="display: block;">00</div>
+                    <input type="text" class="digit-input" id="digit1-input" value="00" maxlength="2" style="display: none;">
+                </div>
+                <div class="digit-pair">
+                    <div class="digit-label">[X.X.] (对应第二排(低16位高字节))</div>
+                    <div class="digit" id="digit2-display" style="display: block;">0.0.</div>
+                    <input type="text" class="digit-input" id="digit2-input" value="0.0." maxlength="4" style="display: none;">
+                </div>
+                <div class="digit-pair">
+                    <div class="digit-label">[XX.] (对应第三排(高16位低字节))</div>
+                    <div class="digit" id="digit3-display" style="display: block;">00.</div>
+                    <input type="text" class="digit-input" id="digit3-input" value="00." maxlength="3" style="display: none;">
+                </div>
+                <div class="digit-pair">
+                    <div class="digit-label">[X.X] (对应第四排(高16位高字节))</div>
+                    <div class="digit" id="digit4-display" style="display: block;">0.0</div>
+                    <input type="text" class="digit-input" id="digit4-input" value="0.0" maxlength="3" style="display: none;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="options-section">
+            <div class="option-row">
+                <h3>第一排(低16位低字节) (对应[XX])</h3>
+                <div class="option-item">
+                    <input type="radio" id="option1-on" name="option1" value="128">
+                    <label for="option1-on">请选择上方功能表</label>
+                    <input type="radio" id="option1-off" name="option1" value="0" checked="">
+                    <label for="option1-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option2-on" name="option2" value="64">
+                    <label for="option2-on">请选择上方功能表</label>
+                    <input type="radio" id="option2-off" name="option2" value="0" checked="">
+                    <label for="option2-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option3-on" name="option3" value="32">
+                    <label for="option3-on">请选择上方功能表</label>
+                    <input type="radio" id="option3-off" name="option3" value="0" checked="">
+                    <label for="option3-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option4-on" name="option4" value="16">
+                    <label for="option4-on">请选择上方功能表</label>
+                    <input type="radio" id="option4-off" name="option4" value="0" checked="">
+                    <label for="option4-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option5-on" name="option5" value="8">
+                    <label for="option5-on">请选择上方功能表</label>
+                    <input type="radio" id="option5-off" name="option5" value="0" checked="">
+                    <label for="option5-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option6-on" name="option6" value="4">
+                    <label for="option6-on">请选择上方功能表</label>
+                    <input type="radio" id="option6-off" name="option6" value="0" checked="">
+                    <label for="option6-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option7-on" name="option7" value="2">
+                    <label for="option7-on">请选择上方功能表</label>
+                    <input type="radio" id="option7-off" name="option7" value="0" checked="">
+                    <label for="option7-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option8-on" name="option8" value="1">
+                    <label for="option8-on">请选择上方功能表</label>
+                    <input type="radio" id="option8-off" name="option8" value="0" checked="">
+                    <label for="option8-off">请选择上方功能表</label>
+                </div>
+            </div>
+            
+            <div class="option-row">
+                <h3>第二排(低16位高字节) (对应[X.X.])</h3>
+                <div class="option-item">
+                    <input type="radio" id="option9-on" name="option9" value="128">
+                    <label for="option9-on">请选择上方功能表</label>
+                    <input type="radio" id="option9-off" name="option9" value="0" checked="">
+                    <label for="option9-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option10-on" name="option10" value="64">
+                    <label for="option10-on">请选择上方功能表</label>
+                    <input type="radio" id="option10-off" name="option10" value="0" checked="">
+                    <label for="option10-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option11-on" name="option11" value="32">
+                    <label for="option11-on">请选择上方功能表</label>
+                    <input type="radio" id="option11-off" name="option11" value="0" checked="">
+                    <label for="option11-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option12-on" name="option12" value="16">
+                    <label for="option12-on">请选择上方功能表</label>
+                    <input type="radio" id="option12-off" name="option12" value="0" checked="">
+                    <label for="option12-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option13-on" name="option13" value="8">
+                    <label for="option13-on">请选择上方功能表</label>
+                    <input type="radio" id="option13-off" name="option13" value="0" checked="">
+                    <label for="option13-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option14-on" name="option14" value="4">
+                    <label for="option14-on">请选择上方功能表</label>
+                    <input type="radio" id="option14-off" name="option14" value="0" checked="">
+                    <label for="option14-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option15-on" name="option15" value="2">
+                    <label for="option15-on">请选择上方功能表</label>
+                    <input type="radio" id="option15-off" name="option15" value="0" checked="">
+                    <label for="option15-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option16-on" name="option16" value="1">
+                    <label for="option16-on">请选择上方功能表</label>
+                    <input type="radio" id="option16-off" name="option16" value="0" checked="">
+                    <label for="option16-off">请选择上方功能表</label>
+                </div>
+            </div>
+            
+            <div class="option-row">
+                <h3>第三排(高16位低字节) (对应[XX.])</h3>
+                <div class="option-item">
+                    <input type="radio" id="option17-on" name="option17" value="128">
+                    <label for="option17-on">请选择上方功能表</label>
+                    <input type="radio" id="option17-off" name="option17" value="0" checked="">
+                    <label for="option17-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option18-on" name="option18" value="64">
+                    <label for="option18-on">请选择上方功能表</label>
+                    <input type="radio" id="option18-off" name="option18" value="0" checked="">
+                    <label for="option18-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option19-on" name="option19" value="32">
+                    <label for="option19-on">请选择上方功能表</label>
+                    <input type="radio" id="option19-off" name="option19" value="0" checked="">
+                    <label for="option19-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option20-on" name="option20" value="16">
+                    <label for="option20-on">请选择上方功能表</label>
+                    <input type="radio" id="option20-off" name="option20" value="0" checked="">
+                    <label for="option20-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <label for="driver-type">驱动器类型:</label>
+                    <select id="driver-type" class="custom-select"><option value="0">请选择上方功能表</option><option value="1">请选择上方功能表</option><option value="2">请选择上方功能表</option><option value="3">请选择上方功能表</option><option value="4">请选择上方功能表</option><option value="5">请选择上方功能表</option></select>
+                </div>
+            </div>
+            
+            <div class="option-row">
+                <h3>第四排(高16位高字节) (对应[X.X])</h3>
+                <div class="option-item">
+                    <input type="radio" id="option25-on" name="option25" value="128">
+                    <label for="option25-on">请选择上方功能表</label>
+                    <input type="radio" id="option25-off" name="option25" value="0" checked="">
+                    <label for="option25-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option26-on" name="option26" value="64">
+                    <label for="option26-on">请选择上方功能表</label>
+                    <input type="radio" id="option26-off" name="option26" value="0" checked="">
+                    <label for="option26-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option27-on" name="option27" value="32">
+                    <label for="option27-on">请选择上方功能表</label>
+                    <input type="radio" id="option27-off" name="option27" value="0" checked="">
+                    <label for="option27-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" id="option28-on" name="option28" value="16">
+                    <label for="option28-on">请选择上方功能表</label>
+                    <input type="radio" id="option28-off" name="option28" value="0" checked="">
+                    <label for="option28-off">请选择上方功能表</label>
+                </div>
+                <div class="option-item">
+                    <label for="battery-type">电池类型:</label>
+                    <select id="battery-type" class="custom-select"><option value="0">请选择上方功能表</option><option value="1">请选择上方功能表</option><option value="2">请选择上方功能表</option><option value="3">请选择上方功能表</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <button class="calculate-btn" id="calculateBtn">计算/更新</button>
+        
+        <div class="result-section">
+            <div style="font-family: Arial, sans-serif; margin: 10px;">
+              <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+                <thead>
+                  <tr style="background-color: #f2f2f2;">
+                    <th>顺序</th>
+                    <th>操作</th>
+                    <th>显示内容</th>
+                    <th>闪烁位置</th>
+                    <th>内容含义</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>无要求</td>
+                    <td>长按3s行走</td>
+                    <td>AB</td>
+                    <td>B</td>
+                    <td>修改：低16位低字节 低4位</td>
+                  </tr>
+                  <tr>
+                    <td>无要求</td>
+                    <td>长按3s举升</td>
+                    <td>AB</td>
+                    <td>A</td>
+                    <td>修改：低16位低字节 高4位</td>
+                  </tr>
+                  <tr>
+                    <td>无要求</td>
+                    <td>长按3s龟速</td>
+                    <td>C。D。</td>
+                    <td>D</td>
+                    <td>修改：低16位高字节 低4位</td>
+                  </tr>
+                  <tr>
+                    <td>无要求</td>
+                    <td>长按3s龟速和举升</td>
+                    <td>C。D。</td>
+                    <td>C</td>
+                    <td>修改：低16位高字节 高4位</td>
+                  </tr>
+                  <tr>
+                    <td>第1下</td>
+                    <td>按住举升，再按一下行走，然后松开举升</td>
+                    <td>EF。</td>
+                    <td>F</td>
+                    <td>修改：高16位低字节 低4位</td>
+                  </tr>
+                  <tr>
+                    <td>第2下</td>
+                    <td>按住举升，再按一下行走，然后松开举升</td>
+                    <td>EF。</td>
+                    <td>E</td>
+                    <td>修改：高16位低字节 高4位</td>
+                  </tr>
+                  <tr>
+                    <td>第3下</td>
+                    <td>按住举升，再按一下行走，然后松开举升</td>
+                    <td>G。H</td>
+                    <td>H</td>
+                    <td>修改：高16位高字节 低4位</td>
+                  </tr>
+                  <tr>
+                    <td>第4下</td>
+                    <td>按住举升，再按一下行走，然后松开举升</td>
+                    <td>G。H</td>
+                    <td>G</td>
+                    <td>修改：高16位高字节 高4位</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>上表前四项无顺序要求，后四项会随按下次数而变化</p>
+            <p>上表每个字母代表四个功能位的配置（16进制F等于二进制的1111），比如：进入H9后，连续三次按下举升和行走并松开，此时屏幕显示【3.2】  其中【2】闪烁，按下左右转按键修改【2】为【1】，再按一下喇叭进行保存，重启ECU，此时电池类型就变成了火箭电池。</p>
+            <h6>Copyright @ North Valley Research</h6>
+        </div>
+    </div>
+
+    <script>
+        // 当前模式：true为选项→数码管，false为数码管→选项
+        let currentMode = true;
+        
+        // 功能配置表数据
+        const configData = [
+            {
+                name: "铝壳_ECU功能配置",
+                options: {
+                    "option1": { on: "预留", off: "预留" },
+                    "option2": { on: "比例下降阀", off: "开关下降阀" },
+                    "option3": { on: "启动高速", off: "启动低速" },
+                    "option4": { on: "并联阀得电高速", off: "并联阀得电低速" },
+                    "option5": { on: "预留", off: "预留" },
+                    "option6": { on: "预留", off: "预留" },
+                    "option7": { on: "预留", off: "预留" },
+                    "option8": { on: "启用上控休眠", off: "关闭上控休眠" },
+                    "option9": { on: "预留", off: "预留" },
+                    "option10": { on: "预留", off: "预留" },
+                    "option11": { on: "预留", off: "预留" },
+                    "option12": { on: "预留", off: "预留" },
+                    "option13": { on: "预留", off: "预留" },
+                    "option14": { on: "预留", off: "预留" },
+                    "option15": { on: "预留", off: "预留" },
+                    "option16": { on: "预留", off: "预留" },
+                    "option17": { on: "预留", off: "预留" },
+                    "option18": { on: "预留", off: "预留" },
+                    "option19": { on: "预留", off: "预留" },
+                    "option20": { on: "预留", off: "预留" },
+                    "option25": { on: "英文模式", off: "中文模式" },
+                    "option26": { on: "预留", off: "单通道压力传感器" },
+                    "option27": { on: "低速阀功能关闭", off: "低俗阀功能开启" },
+                    "option28": { on: "坑洞保护报警开启", off: "坑洞保护报警关闭" }
+                },
+                driverTypeOptions: [
+                    { value: "0", text: "直流液驱或直流电驱" },
+                    { value: "1", text: "交流泵电驱" },
+                ],
+                batteryTypeOptions: [
+                    { value: "0", text: "邱健" },
+                    { value: "1", text: "火箭" },
+                    { value: "2", text: "快猛" },
+                    { value: "3", text: "丰江" },
+                    { value: "4", text: "锂电池" },
+                    { value: "5", text: "荷贝克" },
+                    { value: "6", text: "圣阳" },
+                ]
+            },
+            
+            // 未来可以在这里添加更多配置表
+        ];
+        
+        // 初始化配置选择器
+        function initConfigSelector() {
+            const select = document.getElementById('config-select');
+            select.innerHTML = '';
+            
+            configData.forEach((config, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = config.name;
+                select.appendChild(option);
+            });
+            
+            // 添加事件监听器
+            select.addEventListener('change', function() {
+                updateOptionsForConfig(this.value);
+            });
+        }
+        
+        // 更新选项显示以匹配选定的配置
+        function updateOptionsForConfig(configIndex) {
+            const config = configData[configIndex];
+            
+            // 更新所有选项的标签
+            for (const optionName in config.options) {
+                const option = config.options[optionName];
+                const onLabel = document.querySelector(`label[for="${optionName}-on"]`);
+                const offLabel = document.querySelector(`label[for="${optionName}-off"]`);
+                
+                if (onLabel && offLabel) {
+                    onLabel.textContent = option.on;
+                    offLabel.textContent = option.off;
+                    
+                    // 如果选项是"预留"或"-"，则设为灰色
+                    if (option.on === "预留" || option.on === "-" || option.off === "预留" || option.off === "-") {
+                        onLabel.classList.add('reserved');
+                        offLabel.classList.add('reserved');
+                    } else {
+                        onLabel.classList.remove('reserved');
+                        offLabel.classList.remove('reserved');
+                    }
+                }
+            }
+            
+            // 更新驱动器类型选项
+            const driverTypeSelect = document.getElementById('driver-type');
+            driverTypeSelect.innerHTML = '';
+            config.driverTypeOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.text;
+                driverTypeSelect.appendChild(option);
+            });
+            
+            // 更新电池类型选项
+            const batteryTypeSelect = document.getElementById('battery-type');
+            batteryTypeSelect.innerHTML = '';
+            config.batteryTypeOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.text;
+                batteryTypeSelect.appendChild(option);
+            });
+        }
+        
+        // 模式切换
+        document.getElementById('optionToDigitMode').addEventListener('click', function() {
+            currentMode = true;
+            this.classList.add('active');
+            document.getElementById('digitToOptionMode').classList.remove('active');
+            switchDisplayMode();
+        });
+        
+        document.getElementById('digitToOptionMode').addEventListener('click', function() {
+            currentMode = false;
+            this.classList.add('active');
+            document.getElementById('optionToDigitMode').classList.remove('active');
+            switchDisplayMode();
+        });
+        
+        // 切换显示模式
+        function switchDisplayMode() {
+            const displayElements = document.querySelectorAll('.digit');
+            const inputElements = document.querySelectorAll('.digit-input');
+            
+            if (currentMode) {
+                // 选项→数码管模式
+                displayElements.forEach(el => el.style.display = 'block');
+                inputElements.forEach(el => el.style.display = 'none');
+            } else {
+                // 数码管→选项模式
+                displayElements.forEach(el => el.style.display = 'none');
+                inputElements.forEach(el => el.style.display = 'block');
+                
+                // 初始化输入框的值，保留小数点
+                document.getElementById('digit1-input').value = document.getElementById('digit1-display').textContent;
+                document.getElementById('digit2-input').value = document.getElementById('digit2-display').textContent;
+                document.getElementById('digit3-input').value = document.getElementById('digit3-display').textContent;
+                document.getElementById('digit4-input').value = document.getElementById('digit4-display').textContent;
+            }
+        }
+        
+        // 计算每排选项的值并转换为十六进制显示
+        function calculateRowValue(startId, endId) {
+            let value = 0;
+            
+            // 特殊处理第三排的驱动器类型选项
+            if (startId === 17 && endId === 24) {
+                const driverValue = parseInt(document.getElementById('driver-type').value);
+                value += driverValue;
+                
+                // 计算其他选项
+                for (let i = startId; i <= 20; i++) {
+                    const radio = document.querySelector(`input[name="option${i}"]:checked`);
+                    if (radio && radio.value !== "0") {
+                        value += parseInt(radio.value);
+                    }
+                }
+                return value;
+            }
+            
+            // 特殊处理第四排的电池类型选项
+            if (startId === 25 && endId === 32) {
+                const batteryValue = parseInt(document.getElementById('battery-type').value);
+                value += batteryValue;
+                
+                // 计算其他选项
+                for (let i = startId; i <= 28; i++) {
+                    const radio = document.querySelector(`input[name="option${i}"]:checked`);
+                    if (radio && radio.value !== "0") {
+                        value += parseInt(radio.value);
+                    }
+                }
+                return value;
+            }
+            
+            // 其他排正常计算
+            for (let i = startId; i <= endId; i++) {
+                const radio = document.querySelector(`input[name="option${i}"]:checked`);
+                if (radio && radio.value !== "0") {
+                    value += parseInt(radio.value);
+                }
+            }
+            return value;
+        }
+        
+        // 根据十六进制值更新选项状态
+        function updateOptionsFromHex(hexValue, startId, endId) {
+            // 将十六进制转换为十进制
+            const decimalValue = parseInt(hexValue, 16);
+            
+            // 特殊处理第三排的驱动器类型选项
+            if (startId === 17 && endId === 24) {
+                const driverValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('driver-type').value = driverValue;
+                
+                // 更新其他选项
+                for (let i = startId; i <= 20; i++) {
+                    const optionValue = Math.pow(2, (20 - i) % 8 + 4); // 计算选项值 (128,64,32,16)
+                    const radioOn = document.getElementById(`option${i}-on`);
+                    const radioOff = document.getElementById(`option${i}-off`);
+                    
+                    if ((decimalValue & optionValue) === optionValue) {
+                        radioOn.checked = true;
+                    } else {
+                        radioOff.checked = true;
+                    }
+                }
+                return decimalValue;
+            }
+            
+            // 特殊处理第四排的电池类型选项
+            if (startId === 25 && endId === 32) {
+                const batteryValue = decimalValue & 0b00001111; // 获取低4位
+                document.getElementById('battery-type').value = batteryValue;
+                
+                // 更新其他选项
+                for (let i = startId; i <= 28; i++) {
+                    const optionValue = Math.pow(2, (28 - i) % 8 + 4); // 计算选项值 (128,64,32,16)
+                    const radioOn = document.getElementById(`option${i}-on`);
+                    const radioOff = document.getElementById(`option${i}-off`);
+                    
+                    if ((decimalValue & optionValue) === optionValue) {
+                        radioOn.checked = true;
+                    } else {
+                        radioOff.checked = true;
+                    }
+                }
+                return decimalValue;
+            }
+            
+            // 更新其他排选项
+            for (let i = startId; i <= endId; i++) {
+                const optionValue = Math.pow(2, (endId - i) % 8); // 计算选项值 (128,64,32,16,8,4,2,1)
+                const radioOn = document.getElementById(`option${i}-on`);
+                const radioOff = document.getElementById(`option${i}-off`);
+                
+                if ((decimalValue & optionValue) === optionValue) {
+                    radioOn.checked = true;
+                } else {
+                    radioOff.checked = true;
+                }
+            }
+            
+            return decimalValue;
+        }
+        
+        // 主计算函数
+        function calculate() {
+            if (currentMode) {
+                // 选项→数码管模式
+                const row1Value = calculateRowValue(1, 8);
+                const row2Value = calculateRowValue(9, 16);
+                const row3Value = calculateRowValue(17, 24);
+                const row4Value = calculateRowValue(25, 32);
+                
+                // 转换为十六进制并补零
+                function toHexString(value) {
+                    let hex = value.toString(16).toUpperCase();
+                    return hex.length === 1 ? '0' + hex : hex;
+                }
+                
+                // 更新数码管显示
+                document.getElementById('digit1-display').textContent = toHexString(row1Value);
+                document.getElementById('digit2-display').textContent = toHexString(row2Value).split('').join('.') + '.';
+                document.getElementById('digit3-display').textContent = toHexString(row3Value) + '.';
+                document.getElementById('digit4-display').textContent = toHexString(row4Value).split('').join('.');
+                
+                // 更新结果展示
+                updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
+            } else {
+                // 数码管→选项模式
+                const digit1Value = document.getElementById('digit1-input').value.toUpperCase();
+                const digit2Value = document.getElementById('digit2-input').value.toUpperCase();
+                const digit3Value = document.getElementById('digit3-input').value.toUpperCase();
+                const digit4Value = document.getElementById('digit4-input').value.toUpperCase();
+                
+                // 验证输入是否为有效的格式
+                const hex1Regex = /^[0-9A-F]{2}$/;         // XX → 2位十六进制
+                const hex2Regex = /^[0-9A-F]\.[0-9A-F]\.$/; // X.X. → 带2个点
+                const hex3Regex = /^[0-9A-F]{2}\.$/;        // XX. → 2位+1点
+                const hex4Regex = /^[0-9A-F]\.[0-9A-F]$/;   // X.X → 带1点
+                
+                if (!hex1Regex.test(digit1Value) || !hex2Regex.test(digit2Value) || 
+                    !hex3Regex.test(digit3Value) || !hex4Regex.test(digit4Value)) {
+                    alert('请输入正确格式：\n第一排：XX (如 1A)\n第二排：X.X. (如 0.F.)\n第三排：XX. (如 A3.)\n第四排：X.X (如 9.0)');
+                    return;
+                }
+                
+                // 移除所有小数点进行计算
+                const row1Value = parseInt(digit1Value, 16);
+                const row2Value = parseInt(digit2Value.replace(/\./g, ''), 16);
+                const row3Value = parseInt(digit3Value.replace('.', ''), 16);
+                const row4Value = parseInt(digit4Value.replace('.', ''), 16);
+                
+                // 更新选项状态
+                updateOptionsFromHex(digit1Value, 1, 8);
+                updateOptionsFromHex(digit2Value.replace(/\./g, ''), 9, 16);
+                updateOptionsFromHex(digit3Value.replace('.', ''), 17, 24);
+                updateOptionsFromHex(digit4Value.replace('.', ''), 25, 32);
+                
+                // 更新数码管显示
+                document.getElementById('digit1-display').textContent = digit1Value;
+                document.getElementById('digit2-display').textContent = digit2Value;
+                document.getElementById('digit3-display').textContent = digit3Value;
+                document.getElementById('digit4-display').textContent = digit4Value;
+                
+                // 更新结果展示
+                updateResultDisplay(row1Value, row2Value, row3Value, row4Value);
+            }
+        }
+        
+        // 更新结果展示
+        function updateResultDisplay(row1Value, row2Value, row3Value, row4Value) {
+            // 如果有结果展示元素，可以在这里更新
+            // 例如：
+            // document.getElementById('result1').textContent = row1Value;
+            // document.getElementById('result2').textContent = row2Value;
+            // document.getElementById('result3').textContent = row3Value;
+            // document.getElementById('result4').textContent = row4Value;
+        }
+        
+        // 绑定计算按钮
+        document.getElementById('calculateBtn').addEventListener('click', calculate);
+        
+        // 初始化
+        initConfigSelector();
+        updateOptionsForConfig(0); // 默认加载第一个配置
+        switchDisplayMode();
+    </script>
+
+
+</body></html>
