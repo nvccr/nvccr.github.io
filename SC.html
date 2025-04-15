@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- 网站统计-->
+    <script>
+!function(p){"use strict";!function(t){var s=window,e=document,i=p,c="".concat("https:"===e.location.protocol?"https://":"http://","sdk.51.la/js-sdk-pro.min.js"),n=e.createElement("script"),r=e.getElementsByTagName("script")[0];n.type="text/javascript",n.setAttribute("charset","UTF-8"),n.async=!0,n.src=c,n.id="LA_COLLECT",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:"3LofSwbXxzUEngMy",ck:"3LofSwbXxzUEngMy"});
+</script>
+    <title>机器模式和数码管显示双向计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .display {
+            background-color: black;
+            color: yellow;
+            font-size: 48px;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            outline: none;
+        }
+        .display:focus {
+            box-shadow: 0 0 0 2px #4CAF50;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .control-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            padding: 8px;
+            width: 200px;
+        }
+        .switch-options {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .switch-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .switch-option input[type="radio"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>机器模式和数码管显示双向计算器</h1>
+    
+    <div class="display" id="display" contenteditable="true" tabindex="0">00</div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="scissorType">剪叉类型:</label>
+            <select id="scissorType" onchange="updateFromControls()">
+                <option value="0">标准液压车</option>
+                <option value="1">大电驱</option>
+                <option value="2">预留车型</option>
+                <option value="3">小电驱</option>
+            </select>
+        </div>
+        
+        <div class="control-group">
+            <label>防夹手:</label>
+            <div class="switch-options">
+                <div class="switch-option">
+                    <input type="radio" name="antiPinch" id="antiPinchOff" value="0" checked onchange="updateFromControls()">
+                    <label for="antiPinchOff">关闭</label>
+                </div>
+                <div class="switch-option">
+                    <input type="radio" name="antiPinch" id="antiPinchOn" value="1" onchange="updateFromControls()">
+                    <label for="antiPinchOn">开启</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>预留选项:</label>
+            <div class="switch-options">
+                <div class="switch-option">
+                    <input type="radio" name="reservedDriver" id="reservedDriverOff" value="0" checked onchange="updateFromControls()">
+                    <label for="reservedDriverOff">关闭</label>
+                </div>
+                <div class="switch-option">
+                    <input type="radio" name="reservedDriver" id="reservedDriverOn" value="1" onchange="updateFromControls()">
+                    <label for="reservedDriverOn">开启</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>动作提醒:</label>
+            <div class="switch-options">
+                <div class="switch-option">
+                    <input type="radio" name="actionAlert" id="actionAlertOff" value="0" checked onchange="updateFromControls()">
+                    <label for="actionAlertOff">关闭</label>
+                </div>
+                <div class="switch-option">
+                    <input type="radio" name="actionAlert" id="actionAlertOn" value="1" onchange="updateFromControls()">
+                    <label for="actionAlertOn">开启</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>称重功能:</label>
+            <div class="switch-options">
+                <div class="switch-option">
+                    <input type="radio" name="weighing" id="weighingOff" value="0" checked onchange="updateFromControls()">
+                    <label for="weighingOff">关闭</label>
+                </div>
+                <div class="switch-option">
+                    <input type="radio" name="weighing" id="weighingOn" value="1" onchange="updateFromControls()">
+                    <label for="weighingOn">开启</label>
+                </div>
+            </div>
+        </div>
+
+	<h6>Copyright @ North Valley Research</h6>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        
+        function calculateValue() {
+            // 获取各选项的值
+            const scissorType = parseInt(document.getElementById('scissorType').value);
+            const antiPinch = document.querySelector('input[name="antiPinch"]:checked').value === '1' ? 0 : 1; // 反着算
+            const reservedDriver = parseInt(document.querySelector('input[name="reservedDriver"]:checked').value);
+            const actionAlert = parseInt(document.querySelector('input[name="actionAlert"]:checked').value);
+            const weighing = parseInt(document.querySelector('input[name="weighing"]:checked').value);
+            
+            // 计算十进制值
+            let value = (scissorType << 4) | (antiPinch << 3) | (reservedDriver << 2) | (actionAlert << 1) | weighing;
+            
+            // 显示两位数
+            return value.toString().padStart(2, '0');
+        }
+        
+        function updateFromControls() {
+            display.textContent = calculateValue();
+        }
+        
+        function updateFromNumber(number) {
+            number = parseInt(number);
+            if (isNaN(number) || number < 0 || number > 64) {
+                alert('请输入0-64之间的数字');
+                display.textContent = calculateValue(); // 恢复原值
+                return;
+            }
+            
+            // 解析bit位
+            const weighing = number & 1; // bit0
+            const actionAlert = (number >> 1) & 1; // bit1
+            const reservedDriver = (number >> 2) & 1; // bit2
+            const antiPinch = ((number >> 3) & 1) === 0 ? 1 : 0; // bit3 (反着算)
+            const scissorType = (number >> 4) & 3; // bit4和bit5
+            
+            // 更新控件状态
+            document.getElementById('scissorType').value = scissorType;
+            document.getElementById(`antiPinch${antiPinch ? 'On' : 'Off'}`).checked = true;
+            document.getElementById(`reservedDriver${reservedDriver ? 'On' : 'Off'}`).checked = true;
+            document.getElementById(`actionAlert${actionAlert ? 'On' : 'Off'}`).checked = true;
+            document.getElementById(`weighing${weighing ? 'On' : 'Off'}`).checked = true;
+            
+            // 更新显示
+            display.textContent = number.toString().padStart(2, '0');
+        }
+        
+        // 处理键盘输入
+        display.addEventListener('keydown', function(e) {
+            // 只允许数字键和退格键
+            if (!((e.key >= '0' && e.key <= '9') || e.key === 'Backspace' || e.key === 'Delete')) {
+                e.preventDefault();
+                return;
+            }
+        });
+        
+        // 处理输入完成
+        display.addEventListener('blur', function() {
+            updateFromNumber(this.textContent);
+        });
+        
+        // 处理回车键
+        display.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.blur(); // 触发blur事件
+            }
+        });
+        
+        // 点击时全选文本
+        display.addEventListener('click', function() {
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+        
+        // 初始化
+        updateFromControls();
+    </script>
+</body>
+</html>
