@@ -166,8 +166,8 @@
         
         function updateFromNumber(number) {
             number = parseInt(number);
-            if (isNaN(number) || number < 0 || number > 64) {
-                alert('请输入0-64之间的数字');
+            if (isNaN(number) || number < 0 || number > 63) {
+                alert('请输入0-63之间的数字');
                 display.textContent = calculateValue(); // 恢复原值
                 return;
             }
