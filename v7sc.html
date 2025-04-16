@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- 网站统计-->
+    <!-- 网站统计-->
     <script>
 !function(p){"use strict";!function(t){var s=window,e=document,i=p,c="".concat("https:"===e.location.protocol?"https://":"http://","sdk.51.la/js-sdk-pro.min.js"),n=e.createElement("script"),r=e.getElementsByTagName("script")[0];n.type="text/javascript",n.setAttribute("charset","UTF-8"),n.async=!0,n.src=c,n.id="LA_COLLECT",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:"3LofSwbXxzUEngMy",ck:"3LofSwbXxzUEngMy"});
 </script>
@@ -18,6 +18,9 @@
         }
         h1 {
             color: #333;
+            margin-bottom: 30px;
+        }
+        h3 {
             margin-bottom: 30px;
         }
         .display {
@@ -43,27 +46,40 @@
         .control-group {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 10px;
         }
-        label {
+        .control-label {
             font-weight: bold;
+            flex-shrink: 0;
+            width: 40%;
+            text-align: left;
+        }
+        .control-input {
+            width: 60%;
         }
         select {
             padding: 8px;
-            width: 200px;
+            width: 100%;
         }
         .switch-options {
             display: flex;
             flex-direction: column;
             gap: 5px;
+            width: 100%;
         }
         .switch-option {
             display: flex;
             align-items: center;
             gap: 10px;
+            white-space: nowrap;
         }
         .switch-option input[type="radio"] {
             margin-right: 5px;
+        }
+        h6 {
+            margin-top: 30px;
+            color: #666;
         }
     </style>
 </head>
@@ -74,72 +90,92 @@
     
     <div class="controls">
         <div class="control-group">
-            <label for="scissorType">剪叉类型:</label>
-            <select id="scissorType" onchange="updateFromControls()">
-                <option value="0">大液驱车</option>
-                <option value="1">大电驱</option>
-                <option value="2">小液驱</option>
-                <option value="3">小电驱</option>
-            </select>
+            <div class="control-label">
+                <label for="scissorType">剪叉类型:</label>
+            </div>
+            <div class="control-input">
+                <select id="scissorType" onchange="updateFromControls()">
+                    <option value="0">大液驱车</option>
+                    <option value="1">大电驱</option>
+                    <option value="2">小液驱</option>
+                    <option value="3">小电驱</option>
+                </select>
+            </div>
         </div>
         
         <div class="control-group">
-            <label>防夹手:</label>
-            <div class="switch-options">
-                <div class="switch-option">
-                    <input type="radio" name="antiPinch" id="antiPinchOff" value="0" checked onchange="updateFromControls()">
-                    <label for="antiPinchOff">关闭</label>
-                </div>
-                <div class="switch-option">
-                    <input type="radio" name="antiPinch" id="antiPinchOn" value="1" onchange="updateFromControls()">
-                    <label for="antiPinchOn">开启</label>
+            <div class="control-label">
+                <label>防夹手:</label>
+            </div>
+            <div class="control-input">
+                <div class="switch-options">
+                    <div class="switch-option">
+                        <input type="radio" name="antiPinch" id="antiPinchOff" value="0" checked onchange="updateFromControls()">
+                        <label for="antiPinchOff">关闭</label>
+                    </div>
+                    <div class="switch-option">
+                        <input type="radio" name="antiPinch" id="antiPinchOn" value="1" onchange="updateFromControls()">
+                        <label for="antiPinchOn">开启</label>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="control-group">
-            <label>大液(1413)/小液(禁止开启)/小电驱(非SS车):</label>
-            <div class="switch-options">
-                <div class="switch-option">
-                    <input type="radio" name="reservedDriver" id="reservedDriverOff" value="0" checked onchange="updateFromControls()">
-                    <label for="reservedDriverOff">关闭</label>
-                </div>
-                <div class="switch-option">
-                    <input type="radio" name="reservedDriver" id="reservedDriverOn" value="1" onchange="updateFromControls()">
-                    <label for="reservedDriverOn">开启</label>
+            <div class="control-label">
+                <label>大液(1413)/小液(禁止开启)/小电驱(非SS车):</label>
+            </div>
+            <div class="control-input">
+                <div class="switch-options">
+                    <div class="switch-option">
+                        <input type="radio" name="reservedDriver" id="reservedDriverOff" value="0" checked onchange="updateFromControls()">
+                        <label for="reservedDriverOff">关闭</label>
+                    </div>
+                    <div class="switch-option">
+                        <input type="radio" name="reservedDriver" id="reservedDriverOn" value="1" onchange="updateFromControls()">
+                        <label for="reservedDriverOn">开启</label>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="control-group">
-            <label>动作提醒:</label>
-            <div class="switch-options">
-                <div class="switch-option">
-                    <input type="radio" name="actionAlert" id="actionAlertOff" value="0" checked onchange="updateFromControls()">
-                    <label for="actionAlertOff">关闭</label>
-                </div>
-                <div class="switch-option">
-                    <input type="radio" name="actionAlert" id="actionAlertOn" value="1" onchange="updateFromControls()">
-                    <label for="actionAlertOn">开启</label>
+            <div class="control-label">
+                <label>动作提醒:</label>
+            </div>
+            <div class="control-input">
+                <div class="switch-options">
+                    <div class="switch-option">
+                        <input type="radio" name="actionAlert" id="actionAlertOff" value="0" checked onchange="updateFromControls()">
+                        <label for="actionAlertOff">关闭</label>
+                    </div>
+                    <div class="switch-option">
+                        <input type="radio" name="actionAlert" id="actionAlertOn" value="1" onchange="updateFromControls()">
+                        <label for="actionAlertOn">开启</label>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="control-group">
-            <label>称重功能:</label>
-            <div class="switch-options">
-                <div class="switch-option">
-                    <input type="radio" name="weighing" id="weighingOff" value="0" checked onchange="updateFromControls()">
-                    <label for="weighingOff">关闭</label>
-                </div>
-                <div class="switch-option">
-                    <input type="radio" name="weighing" id="weighingOn" value="1" onchange="updateFromControls()">
-                    <label for="weighingOn">开启</label>
+            <div class="control-label">
+                <label>称重功能:</label>
+            </div>
+            <div class="control-input">
+                <div class="switch-options">
+                    <div class="switch-option">
+                        <input type="radio" name="weighing" id="weighingOff" value="0" checked onchange="updateFromControls()">
+                        <label for="weighingOff">关闭</label>
+                    </div>
+                    <div class="switch-option">
+                        <input type="radio" name="weighing" id="weighingOn" value="1" onchange="updateFromControls()">
+                        <label for="weighingOn">开启</label>
+                    </div>
                 </div>
             </div>
         </div>
 
-	<h6>Copyright @ North Valley Research</h6>
+        <h6>Copyright @ North Valley Research</h6>
     </div>
 
     <script>
